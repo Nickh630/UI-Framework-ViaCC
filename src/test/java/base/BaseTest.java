@@ -25,6 +25,7 @@ public class BaseTest {
 
     @BeforeClass
     public void setUpClass(){
+        //POM redesign Branch
     }
 
     @BeforeMethod

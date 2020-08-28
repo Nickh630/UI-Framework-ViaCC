@@ -28,10 +28,6 @@ public class SearchPage {
         driver.findElement(eventNumberSearchField).sendKeys(eventNumber);
     }
 
-    /*public void clickEventSearchButton(){
-        driver.findElement(eventSearchButton).click();
-    }*/
-
     public EventsPage clickEventSearchButton(){
         driver.findElement(eventSearchButton).click();
         return new EventsPage(driver);
