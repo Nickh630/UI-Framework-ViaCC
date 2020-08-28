@@ -1,6 +1,7 @@
 package reserve;
 
 import base.BaseTest;
+import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 import pages.EventsPage;
@@ -13,30 +14,101 @@ import static org.testng.Assert.assertEquals;
 public class ExposureTests extends BaseTest {
 
     @Test
-    public void givenEventNumber_whenReservePriceIsSet_thenVerifyPrice() throws InterruptedException {
-        //Thread.sleep(2000);
+    @Description("Verifies the reserve price is set after loss cost estimate is updated")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("ANCP-13684")
+    @Epic("Automated Testing-Deployments")
+    public void givenEventNumber_whenReservePriceIsUpdated_thenVerifyPrice() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
-        Thread.sleep(2100);
         eventsPage.clickEventsDropdown();
-        Thread.sleep(1100);
         eventsPage.setEventNumberSearch("631066201");
         eventsPage.clickEventSearchIcon();
-        Thread.sleep(1000);
         eventsPage.clickExposuresOption();
         eventsPage.clickCollisionExposureNoOne();
-        Thread.sleep(1500);
         eventsPage.clickEditReserveButton();
-        Thread.sleep(1500);
-        eventsPage.findAndConvertValueOfLossCostEstimate();
+        eventsPage.findAndConvertValueOfLossCostEstimateByOne();
         eventsPage.clickSaveButtonForSetReserves();
-        Thread.sleep(2000);
         assertEquals(eventsPage.getFinancialsSummaryAlertText(), "Pending Transactions (not yet processed in ACES)", "Unexpected Message: Alert Incorrect");
         String pendingAmount = eventsPage.getPendingTransactionAmount();
-        pageRefreshLong();
+        eventsPage.pageRefreshForAcesProcessing();
         assertEquals(eventsPage.getCurrentCostEstimateFromFinancialsSummary(),pendingAmount, "Updated Price is incorrect");
     }
 
+    @Test
+    @Description("Verifies Soft warning after Reserve price is changed by adding a large amount(20k)")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("ANCP-14693")
+    @Epic("Automated Testing-Deployments")
+    public void givenReservePrice_whenAddingLargeAmount_thenASoftWarningIsGiven() throws InterruptedException {
+        HomePage homePage = loginPage.clickLoginButton();
+        EventsPage eventsPage = homePage.clickEventsPage();
+        eventsPage.clickEventsDropdown();
+        eventsPage.setEventNumberSearch("631066201");
+        eventsPage.clickEventSearchIcon();
+        eventsPage.clickExposuresOption();
+        eventsPage.clickCollisionExposureNoOne();
+        eventsPage.clickEditReserveButton();
+        eventsPage.findAndConvertValueOfLossCostEstimateByAddingLargeAmount();
+        eventsPage.clickSaveButtonForSetReserves();
+        assertEquals(eventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present" );
+        assertEquals(eventsPage.getSoftWarningValidationResults(),
+                "Exposure: Customer should be notified of reserve changes greater than or equal to $20,000 or established SSIs. Rule: TRNVRES04",
+                "Unexpected Soft Warning message");
+    }
+
+    @Test
+    @Description("Verifies Soft warning after Reserve price is changed by subtracting a large amount(20k)")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("ANCP-14693")
+    @Epic("Automated Testing-Deployments")
+    public void givenReservePrice_whenSubtractingLargeAmount_thenASoftWarningIsGiven() throws InterruptedException {
+        HomePage homePage = loginPage.clickLoginButton();
+        EventsPage eventsPage = homePage.clickEventsPage();
+        eventsPage.clickEventsDropdown();
+        eventsPage.setEventNumberSearch("631066201");
+        eventsPage.clickEventSearchIcon();
+        eventsPage.clickExposuresOption();
+        eventsPage.clickCollisionExposureNoOne();
+        eventsPage.clickEditReserveButton();
+        eventsPage.findAndConvertValueOfLossCostEstimateBySubtractingLargeAmount();
+        eventsPage.clickSaveButtonForSetReserves();
+        assertEquals(eventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present" );
+        assertEquals(eventsPage.getSoftWarningValidationResults(),
+                "Exposure: Customer should be notified of reserve changes greater than or equal to $20,000 or established SSIs. Rule: TRNVRES04",
+                "Unexpected Soft Warning message");
+    }
+
+    @Test
+    @Description("Verifies Price is set after Reserve price is changed by adding a large amount(20k)")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("ANCP-14693")
+    @Epic("Automated Testing-Deployments")
+    public void givenReservePrice_whenReserveSetByAddingLargeAmount_thenVerifyPrice() throws InterruptedException {
+        HomePage homePage = loginPage.clickLoginButton();
+        EventsPage eventsPage = homePage.clickEventsPage();
+        eventsPage.clickEventsDropdown();
+        eventsPage.setEventNumberSearch("631066201");
+        eventsPage.clickEventSearchIcon();
+        eventsPage.clickExposuresOption();
+        eventsPage.clickCollisionExposureNoOne();
+        eventsPage.clickEditReserveButton();
+        eventsPage.findAndConvertValueOfLossCostEstimateByAddingLargeAmount();
+        eventsPage.clickSaveButtonForSetReserves();
+        eventsPage.clickClearButtonForValidationResultsAlert();
+        eventsPage.clickSaveButtonForSetReserves();
+        assertEquals(eventsPage.getFinancialsSummaryAlertText(), "Pending Transactions (not yet processed in ACES)", "Unexpected Message: Alert Incorrect");
+        String pendingAmount = eventsPage.getPendingTransactionAmount();
+        eventsPage.pageRefreshForAcesProcessing();
+        assertEquals(eventsPage.getCurrentCostEstimateFromFinancialsSummary(),pendingAmount, "Updated Price is incorrect");
+        eventsPage.clickExposuresOption();
+        eventsPage.clickCollisionExposureNoOne();
+        eventsPage.clickEditReserveButton();
+        eventsPage.resetLossCostEstimateToThirtyK();
+        eventsPage.clickSaveButtonForSetReserves();
+        eventsPage.clickClearButtonForValidationResultsAlert();
+        eventsPage.clickSaveButtonForSetReserves();
+    }
     //@Test
     public void givenEventNumberIsSearched_whenPriceIsSet_thenVerifyPrice() throws InterruptedException {
         /*loginPage.setUsernameField("n9996525");

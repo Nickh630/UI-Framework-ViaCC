@@ -21,9 +21,9 @@ public class HomePage {
         return driver.findElement(statusAlert).getText();
     }
 
-   /* public void clickEventsTab(){
+    public void clickEventsTab(){
         driver.findElement(eventsTab).click();
-    }*/
+    }
 
     public EventsPage clickEventsPage(){
         driver.findElement(eventsTab).click();
@@ -33,9 +33,5 @@ public class HomePage {
     public SearchPage clickSearchPage(){
         driver.findElement(searchTab).click();
         return new SearchPage(driver);
-    }
-
-    private void clickLink(String linkText){
-        driver.findElement(By.linkText(linkText)).click();
     }
 }

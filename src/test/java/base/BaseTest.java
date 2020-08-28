@@ -19,33 +19,39 @@ public class BaseTest {
     private EventFiringWebDriver driver;
     protected LoginPage loginPage;
 
-   /* @BeforeSuite
-            public void beforeSuiteSetUp(){
-        System.setProperty("webdriver.chrome.driver", "resources/chromedriver.exe");
-        driver = new EventFiringWebDriver(new ChromeDriver(getChromeOptions()));
-    }*/
+    @BeforeSuite
+    public void beforeSuiteSetUp(){
+    }
 
     @BeforeClass
-    public void setUp(){
+    public void setUpClass(){
+    }
+
+    @BeforeMethod
+    public void setUpMethod(){
         System.setProperty("webdriver.chrome.driver", "resources/chromedriver.exe");
         driver = new EventFiringWebDriver(new ChromeDriver(getChromeOptions()));
-        //driver.register(new EventReporter());
         driver.get("https://test-pcm.lmig.com/palclaims/cc/ClaimCenter.do");
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         System.out.println(driver.getTitle());
         loginPage = new LoginPage(driver);
-        loginPage.setUsernameField("n9996525");
-        loginPage.setPasswordField("paltest1");
+        loginPage.setUsernameField("n9975299");
+        loginPage.setPasswordField("PALSTCC1");
+    }
+
+    @AfterMethod
+    public void tearDownMethod(){
+        driver.close();
     }
 
     @AfterClass
     public void teardown(){
-        driver.quit();
     }
 
     @AfterSuite
     public void afterSuiteTearDown(){
+        driver.quit();
         System.out.println("Clear Cookies Here");
     }
 
@@ -57,9 +63,9 @@ public class BaseTest {
     }
 
     public void pageRefreshLong() throws InterruptedException {
-        Thread.sleep(6000);
+        Thread.sleep(4500);
         driver.navigate().refresh();
-            Thread.sleep(1500);
+            Thread.sleep(2500);
     }
 
     public void pageRefreshInstant() throws InterruptedException {
