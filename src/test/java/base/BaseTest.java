@@ -1,16 +1,19 @@
 package base;
 
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+
+import com.google.common.io.Files;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
-import pages.HomePage;
 import pages.LoginPage;
-import utils.EventReporter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
@@ -25,16 +28,15 @@ public class BaseTest {
 
     @BeforeClass
     public void setUpClass(){
-        //POM redesign Branch adding to github
+        System.setProperty("webdriver.chrome.driver", "Drivers/chromedriver.exe");
     }
 
     @BeforeMethod
     public void setUpMethod(){
-        System.setProperty("webdriver.chrome.driver", "resources/chromedriver.exe");
         driver = new EventFiringWebDriver(new ChromeDriver(getChromeOptions()));
         driver.get("https://test-pcm.lmig.com/palclaims/cc/ClaimCenter.do");
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         System.out.println(driver.getTitle());
         loginPage = new LoginPage(driver);
         loginPage.setUsernameField("n9975299");
@@ -42,7 +44,16 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void tearDownMethod(){
+    public void recordFailure(ITestResult result) {
+        if (ITestResult.FAILURE == result.getStatus()) {
+            var camera = (TakesScreenshot) driver;
+            File screenshot = camera.getScreenshotAs(OutputType.FILE);
+            try {
+                Files.move(screenshot, new File("resources/screenshots/test.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         driver.close();
     }
 
@@ -60,6 +71,7 @@ public class BaseTest {
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
         options.setExperimentalOption("useAutomationExtension", false);
+        options.getVersion();
         return options;
     }
 
@@ -69,8 +81,7 @@ public class BaseTest {
             Thread.sleep(2500);
     }
 
-    public void pageRefreshInstant() throws InterruptedException {
+    public void pageRefreshInstant(){
         driver.navigate().refresh();
-        Thread.sleep(1500);
     }
 }
