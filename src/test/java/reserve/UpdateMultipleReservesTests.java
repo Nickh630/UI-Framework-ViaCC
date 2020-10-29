@@ -12,33 +12,57 @@ import pages.events.SummaryForFinancialsUnderEventsPage;
 import static org.testng.Assert.assertEquals;
 
 public class UpdateMultipleReservesTests extends BaseTest {
+    //DO NOT RUN IN IE
 
     @Test
     @Description("Verifies multiple reserve prices are set after LCE and ECE are updated for Auto")
     @Severity(SeverityLevel.NORMAL)
-    @Story("ANCP-13684")
+    @Story("ANCP-17723")
     @Epic("Automated Testing-Deployments")
-    public void givenMultipleReserves_whenReservePricesAreUpdated_thenVerifyPrice() throws InterruptedException {
+    public void givenMultipleReservesForAuto_whenReservePricesAreUpdated_thenVerifyPrice() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("391079001");
         eventsPage.clickEventSearchIcon();
-        ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
-        exposuresUnderEventsPage.clickCollisionExposureNoOne();
-        SetReservesUnderEventsPage setReservesUnderEventsPage = exposuresUnderEventsPage.clickEditReserveButton();
+        eventsPage.clickActionsDropdown();
+        SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByOne();
-        setReservesUnderEventsPage.findAndConvertValueOfExpenseCostEstimateByAddingOne();
+        setReservesUnderEventsPage.findAndConvertValueForMultipleReserveOfExpenseCostEstimateByAddingOne();
+        String lossValueValidation = setReservesUnderEventsPage.getNewMultiValueForLoss();
+        String expenseValueValidation = setReservesUnderEventsPage.getNewMultiValueForExpense();
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
-        assertEquals(summaryForFinancialsUnderEventsPage.getFinancialsSummaryAlertText(), "Pending Transactions", "Unexpected Message: Alert Incorrect");
-        String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
-        Thread.sleep(1500);
-        String pendingSecondAmount = summaryForFinancialsUnderEventsPage.getSecondPendingTransactionAmount();
-        System.out.println(pendingAmount + pendingSecondAmount);
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
-        Thread.sleep(2000);
-        assertEquals(summaryForFinancialsUnderEventsPage.getCurrentLossCostEstimateFromFinancialsSummary(),pendingSecondAmount, "Updated Price is incorrect");
-        assertEquals(summaryForFinancialsUnderEventsPage.getCurrentExpenseCostEstimateFromFinancialsSummary(),pendingAmount, "Updated Price is incorrect");
+        eventsPage.clickExposuresOption();
+        eventsPage.clickFinancialsOption();
+        assertEquals(summaryForFinancialsUnderEventsPage.getCurrentLossCostForMultiFromFinancialsSummary(), lossValueValidation, "Updated Price is incorrect");
+        assertEquals(summaryForFinancialsUnderEventsPage.getCurrentExpenseCostForMultiFromFinancialsSummary(), expenseValueValidation, "Updated Price is incorrect");
+    }
+
+    @Test
+    @Description("Verifies multiple reserve prices are set after LCE and ECE are updated for property")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("ANCP-17723")
+    @Epic("Automated Testing-Deployments")
+    public void givenMultipleReservesForProperty_whenReservePricesAreUpdated_thenVerifyPrice() throws InterruptedException {
+        HomePage homePage = loginPage.clickLoginButton();
+        EventsPage eventsPage = homePage.clickEventsPage();
+        eventsPage.clickEventsDropdown();
+        eventsPage.setEventNumberSearch("201079101");
+        eventsPage.clickEventSearchIcon();
+        eventsPage.clickActionsDropdown();
+        SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
+        setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByOne();
+        setReservesUnderEventsPage.findAndConvertValueForMultipleExposureTwoLossCostByAddingOne();
+        String lossValueValidation = setReservesUnderEventsPage.getNewMultiValueForLoss();
+        String exposureTwoValueValidation = setReservesUnderEventsPage.getNewMultiValueForExposureTwoLoss();
+        SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
+        pageRefreshInstant();
+        eventsPage.clickExposuresOption();
+        eventsPage.clickFinancialsOption();
+        assertEquals(summaryForFinancialsUnderEventsPage.getCurrentLossCostForMultiFromFinancialsSummary(), lossValueValidation, "Updated Price is incorrect");
+        assertEquals(summaryForFinancialsUnderEventsPage.getCurrentExposureTwoLossCostForMultiFromFinancialsSummary(), exposureTwoValueValidation, "Updated Price is incorrect");
     }
 }

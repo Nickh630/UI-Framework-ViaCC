@@ -13,19 +13,20 @@ import static org.testng.Assert.assertEquals;
 public class ReserveWarningTests extends BaseTest {
 
     @Test
-    @Description("Verifies Soft warning after LCE Reserve price is changed by adding a large amount(20k)")
+    @Description("Verifies Soft warning after LCE Reserve price for Auto LOB is changed by adding a large amount(20k)")
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-14693")
     @Epic("Automated Testing-Deployments")
-    public void givenReservePrice_whenAddingLargeAmount_thenASoftWarningIsGiven() throws InterruptedException {
+    public void givenReservePrice_whenAddingLargeAmountToLCE_thenASoftWarningIsGiven() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("631066201");
-        eventsPage.clickEventSearchIcon();
-        ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
+        eventsPage.clickEventSearchIcon();eventsPage.clickActionsDropdown();
+        SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
+       /* ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
         exposuresUnderEventsPage.clickCollisionExposureNoOne();
-        SetReservesUnderEventsPage setReservesUnderEventsPage = exposuresUnderEventsPage.clickEditReserveButton();
+        SetReservesUnderEventsPage setReservesUnderEventsPage = exposuresUnderEventsPage.clickEditReserveButton();*/
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByAddingLargeAmount();
         setReservesUnderEventsPage.clickSaveButtonForSetReserves();
         assertEquals(setReservesUnderEventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present" );
@@ -35,19 +36,21 @@ public class ReserveWarningTests extends BaseTest {
     }
 
     @Test
-    @Description("Verifies Soft warning after LCE Reserve price is changed by subtracting a large amount(20k)")
+    @Description("Verifies Soft warning after LCE Reserve price for Auto LOB is changed by subtracting a large amount(20k)")
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-14693")
     @Epic("Automated Testing-Deployments")
-    public void givenReservePrice_whenSubtractingLargeAmount_thenASoftWarningIsGiven() throws InterruptedException {
+    public void givenReservePrice_whenSubtractingLargeAmountToLCE_thenASoftWarningIsGiven() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("631066201");
         eventsPage.clickEventSearchIcon();
-        ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
+        eventsPage.clickActionsDropdown();
+        SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
+        /*ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
         exposuresUnderEventsPage.clickCollisionExposureNoOne();
-        SetReservesUnderEventsPage setReservesUnderEventsPage = exposuresUnderEventsPage.clickEditReserveButton();
+        SetReservesUnderEventsPage setReservesUnderEventsPage = exposuresUnderEventsPage.clickEditReserveButton();*/
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateBySubtractingLargeAmount();
         setReservesUnderEventsPage.clickSaveButtonForSetReserves();
         assertEquals(setReservesUnderEventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present" );

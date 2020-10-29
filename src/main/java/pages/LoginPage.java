@@ -6,9 +6,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class LoginPage {
+public class LoginPage extends BasePage {
 
-    private WebDriver driver;
     private By usernameField = By.name("USER");
     private By passwordField = By.name("PASSWORD");
     private By loginButton = By.name("submitButton");
@@ -27,7 +26,6 @@ public class LoginPage {
 
     public HomePage clickLoginButton(){
         driver.findElement(loginButton).click();
-
         return new HomePage(driver);
     }
 }

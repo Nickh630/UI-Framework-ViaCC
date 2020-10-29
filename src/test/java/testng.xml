@@ -1,11 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name = "Suite" thread-count="3" parallel="classes">
-    <test name = "Test">
+<suite name = "Suite" thread-count="2" parallel="tests">
+    <!--<test name = "TestFirefox">
+        <parameter name="browser" value="firefox"></parameter>
         <classes>
+            &lt;!&ndash;<class name="reserve.UpdateReserveTests"/>
+            <class name="reserve.ReserveWarningTests"/>
+            &lt;!&ndash;<class name="reserve.UpdatePropertyReserveTests"/>&ndash;&gt;
+            <class name="reserve.ReserveHardWarningTests"/>
+            &lt;!&ndash;<class name="login.LoginTest"></class>&ndash;&gt;
+        </classes>
+    </test>-->
+    <test name = "TestChrome">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="reserve.ReserveRegressionTests"/>
+           <!-- <class name="reserve.UpdateMultipleReservesTests"/>
+            <class name="exposures.ExposureWarningTests"/>
             <class name="reserve.UpdateReserveTests"/>
             <class name="reserve.ReserveWarningTests"/>
-            <class name="login.LoginTest"/>
+            <class name="reserve.UpdatePropertyReserveTests"/>
+            <class name="reserve.ReserveHardWarningTests"/>
+            <class name="exposures.ExposureStatusTests"/>-->
+        </classes>
+    </test>
+    <test name = "TestIE">
+        <parameter name="browser" value="ie"/>
+        <classes>
+            <!--<class name="exposures.ExposureWarningTests"/>-->
+            <!--<class name="reserve.ReserveRegressionTests"/>-->
+            <!--<class name="reserve.UpdateReserveTests"></class>
+             &lt;!&ndash;<class name="reserve.ReserveWarningTests"/>
+             <class name="reserve.UpdatePropertyReserveTests"/>&ndash;&gt;
+             <class name="reserve.ReserveHardWarningTests"/>
+             <class name="exposures.ExposureStatusTests">
+             </class>-->
         </classes>
     </test>
 </suite>

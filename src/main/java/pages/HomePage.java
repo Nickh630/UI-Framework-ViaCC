@@ -4,8 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pages.events.EventsPage;
 
-public class HomePage {
-    private final WebDriver driver;
+public class HomePage extends BasePage  {
+
     private final By statusAlert = By.cssSelector("#DesktopActivities\\:DesktopActivitiesScreen\\:0");
     private final By eventsTab = By.id("TabBar:ClaimTab-btnInnerEl");
     private final By searchTab = By.id("TabBar:SearchTab-btnInnerEl");
