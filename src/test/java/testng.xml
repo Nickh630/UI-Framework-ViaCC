@@ -14,14 +14,14 @@
     <test name = "TestChrome">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <!--<class name="reserve.ReserveRegressionTests"/>
+            <class name="reserve.ReserveRegressionTests"/>
             <class name="reserve.UpdateMultipleReservesTests"/>
             <class name="exposures.ExposureWarningTests"/>
-            <class name="reserve.UpdateReserveTests"/>-->
+            <class name="reserve.UpdateReserveTests"/>
             <class name="reserve.ReserveWarningTests"/>
-            <!--<class name="reserve.UpdatePropertyReserveTests"/>
+            <class name="reserve.UpdatePropertyReserveTests"/>
             <class name="reserve.ReserveHardWarningTests"/>
-            <class name="exposures.ExposureStatusTests"/>-->
+            <class name="exposures.ExposureStatusTests"/>
         </classes>
     </test>
     <test name = "TestIE">

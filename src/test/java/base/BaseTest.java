@@ -32,7 +32,7 @@ public class BaseTest {
     //private WebDriver driver = null;
     public RemoteWebDriver driver;
     protected LoginPage loginPage;
-    //Hello World
+    //Hello World 2
 
     @BeforeSuite
     public void beforeSuiteSetUp(){
