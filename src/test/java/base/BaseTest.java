@@ -32,7 +32,7 @@ public class BaseTest {
     //private WebDriver driver = null;
     public RemoteWebDriver driver;
     protected LoginPage loginPage;
-    //public DesiredCapabilities capabilities = null;
+    //Hello World
 
     @BeforeSuite
     public void beforeSuiteSetUp(){
@@ -178,7 +178,6 @@ public class BaseTest {
     }
 
     public void pageRefreshInstant(){
-
         driver.navigate().refresh();
     }
 }
