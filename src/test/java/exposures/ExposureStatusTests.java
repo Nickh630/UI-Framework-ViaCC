@@ -8,7 +8,6 @@ import pages.events.EventsPage;
 import pages.events.ExposuresUnderEventsPage;
 import pages.events.SetReservesUnderEventsPage;
 
-import java.util.NoSuchElementException;
 import static org.testng.Assert.assertEquals;
 
 public class ExposureStatusTests extends BaseTest {

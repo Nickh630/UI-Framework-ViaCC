@@ -178,6 +178,7 @@ public class BaseTest {
     }
 
     public void pageRefreshInstant(){
+
         driver.navigate().refresh();
     }
 }

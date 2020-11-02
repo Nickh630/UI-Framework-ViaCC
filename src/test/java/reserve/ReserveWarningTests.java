@@ -29,6 +29,7 @@ public class ReserveWarningTests extends BaseTest {
         SetReservesUnderEventsPage setReservesUnderEventsPage = exposuresUnderEventsPage.clickEditReserveButton();*/
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByAddingLargeAmount();
         setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        pageRefreshInstant();
         assertEquals(setReservesUnderEventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present" );
         assertEquals(setReservesUnderEventsPage.getSoftWarningValidationResults(),
                 "Exposure: Customer should be notified of reserve changes greater than or equal to $20,000 or established SSIs. Rule: TRNVRES04",
@@ -53,6 +54,7 @@ public class ReserveWarningTests extends BaseTest {
         SetReservesUnderEventsPage setReservesUnderEventsPage = exposuresUnderEventsPage.clickEditReserveButton();*/
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateBySubtractingLargeAmount();
         setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        pageRefreshInstant();
         assertEquals(setReservesUnderEventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present" );
         assertEquals(setReservesUnderEventsPage.getSoftWarningValidationResults(),
                 "Exposure: Customer should be notified of reserve changes greater than or equal to $20,000 or established SSIs. Rule: TRNVRES04",

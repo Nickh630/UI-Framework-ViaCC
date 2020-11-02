@@ -22,9 +22,19 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
     }
 
     public String getFinancialsSummaryAlertText(){
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.presenceOfElementLocated(financialsSummaryStatusAlert));
-        return driver.findElement(financialsSummaryStatusAlert).getText();
+        boolean staleElement = true;
+        WebDriverWait wait = new WebDriverWait(driver, 8);
+        String StatusAlertText = null;
+        while(staleElement){
+            try{
+                wait.until(ExpectedConditions.presenceOfElementLocated(financialsSummaryStatusAlert));
+                StatusAlertText = driver.findElement(financialsSummaryStatusAlert).getText();
+                staleElement = false;
+            } catch(StaleElementReferenceException e){
+                staleElement = true;
+            }
+        }
+        return StatusAlertText;
     }
 
     public String getCurrentLossCostEstimateFromFinancialsSummary(){
