@@ -16,6 +16,9 @@ public class EventDetailsUnderEventsPage extends BasePage {
 
     public EventDetailsUnderEventsPage(WebDriver driver){
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, 8);
+        this.action = new Actions(driver);
+        this.executor = (JavascriptExecutor)driver;
     }
 
     public void clickEventDetailsEditButton() throws InterruptedException {
@@ -25,8 +28,6 @@ public class EventDetailsUnderEventsPage extends BasePage {
 
     public void selectHomeOfficeFromEventClassificationDropdown() {
         boolean timeoutElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
-        Actions action = new Actions(driver);
         while(timeoutElement){
             try{
                 wait.until(ExpectedConditions.presenceOfElementLocated(eventClassificationDropdown));
@@ -41,7 +42,6 @@ public class EventDetailsUnderEventsPage extends BasePage {
 
     public void clickEventDetailsUpdateButton() {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         while(staleElement){
             try{
                 wait.until(ExpectedConditions.presenceOfElementLocated(updateButton));
@@ -55,7 +55,6 @@ public class EventDetailsUnderEventsPage extends BasePage {
 
     public String getEventClassificationMessage() {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         String validationResultsErrorText = null;
         while(staleElement){
             try{
@@ -70,7 +69,6 @@ public class EventDetailsUnderEventsPage extends BasePage {
     }
 
     public void clickCancel() {
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         wait.until(ExpectedConditions.presenceOfElementLocated(cancelButton));
         driver.findElement(cancelButton).click();
     }

@@ -1,6 +1,7 @@
 package pages.events;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
@@ -15,15 +16,17 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
     private final By updatedCurrentExpenseCostEstimate = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/div[2]/div/table/tbody/tr[2]/td[5]/div");
     private final By updatedExposureTwoCurrentExpenseCostEstimate = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/div[2]/div/table/tbody/tr[3]/td[5]/div");
     private final By financialSummaryTitle = By.id("ClaimFinancialsSummary:ClaimFinancialsSummaryScreen:ttlBar");
-    //WebDriverWait wait = new WebDriverWait(driver, 8);
+
 
     public SummaryForFinancialsUnderEventsPage(WebDriver driver){
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, 8);
+        this.action = new Actions(driver);
+        this.executor = (JavascriptExecutor)driver;
     }
 
     public String getFinancialsSummaryAlertText(){
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         String StatusAlertText = null;
         while(staleElement){
             try{
@@ -37,14 +40,19 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
         return StatusAlertText;
     }
 
+    public int presenceOfSummaryAlertText(){
+        //WebDriverWait wait = new WebDriverWait(driver, 8);
+        wait.until(ExpectedConditions.presenceOfElementLocated(financialsSummaryStatusAlert));
+        int ele = driver.findElements(financialsSummaryStatusAlert).size();
+        return ele;
+    }
+
     public String getCurrentLossCostEstimateFromFinancialsSummary(){
-        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(updatedCurrentLossCostEstimate));
         return driver.findElement(updatedCurrentLossCostEstimate).getText();
     }
 
     public String getCurrentExpenseCostEstimateFromFinancialsSummary(){
-        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(updatedCurrentExpenseCostEstimate));
         return driver.findElement(updatedCurrentExpenseCostEstimate).getText();
     }
@@ -67,7 +75,6 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
 
     public String getPendingTransactionAmount(){
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         String pendingTransactionPriceValue = null;
         while(staleElement){
             try{
@@ -82,7 +89,6 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
     }
 
     public String getCurrentLossCostForMultiFromFinancialsSummary(){
-        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(updatedCurrentLossCostEstimate));
         String lossCostString = driver.findElement(updatedCurrentLossCostEstimate).getText();
         lossCostString = lossCostString.substring(0, lossCostString.length() - 2).replaceAll("\\D+", "");
@@ -90,13 +96,9 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
     }
 
     public String getCurrentExpenseCostForMultiFromFinancialsSummary(){
-        //driver.findElement(updatedCurrentExpenseCostEstimate).getText();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(updatedCurrentExpenseCostEstimate));
         String expenseCostString = driver.findElement(updatedCurrentExpenseCostEstimate).getText();
-        System.out.println(expenseCostString);
         expenseCostString = expenseCostString.substring(0, expenseCostString.length() - 2).replaceAll("\\D+", "");
-        System.out.println(expenseCostString);
         return expenseCostString;
     }
 
@@ -105,7 +107,6 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
     }
 
     public String getCurrentExposureTwoLossCostForMultiFromFinancialsSummary() {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(updatedExposureTwoCurrentExpenseCostEstimate));
         String lossCostString = driver.findElement(updatedExposureTwoCurrentExpenseCostEstimate).getText();
         lossCostString = lossCostString.substring(0, lossCostString.length() - 2).replaceAll("\\D+", "");

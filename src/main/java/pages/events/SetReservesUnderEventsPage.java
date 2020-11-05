@@ -25,14 +25,16 @@ public class SetReservesUnderEventsPage extends BasePage {
     private final By newExposureTwoLossCost = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[3]/td[6]/div");
     private Integer costEstimateInteger;
     private final String threeK = "3000";
-    public JavascriptExecutor executor = (JavascriptExecutor)driver;
-    //public Actions action = new Actions(driver);
 
     public SetReservesUnderEventsPage(WebDriver driver){
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, 8);
+        this.action = new Actions(driver);
+        this.executor = (JavascriptExecutor)driver;
     }
 
     public void findAndConvertValueOfLossCostEstimateByOne(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(currentLossCostEstimate));
         String costEstimateString = driver.findElement(currentLossCostEstimate).getText();
         costEstimateString = costEstimateString.substring(0, costEstimateString.length() - 2).replaceAll("\\D+", "");
         costEstimateInteger = Integer.parseInt(costEstimateString);
@@ -42,9 +44,8 @@ public class SetReservesUnderEventsPage extends BasePage {
     public void sendNewLostCostPlusOne(){
         costEstimateInteger = costEstimateInteger + 1;
         String costEstimateString = Integer.toString(costEstimateInteger);
-        //add wait. no such element
+        wait.until(ExpectedConditions.presenceOfElementLocated(currentLossCostEstimate));
         WebElement newLossCostEstimate  = driver.findElement(By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td[6]/div"));
-        Actions action = new Actions(driver);
         //action.click(newLossCostEstimate).sendKeys(costEstimateString).perform();
         action.click(newLossCostEstimate);
         action.sendKeys(newLossCostEstimate, costEstimateString).build().perform();
@@ -61,7 +62,6 @@ public class SetReservesUnderEventsPage extends BasePage {
         costEstimateInteger = costEstimateInteger - 1;
         String costEstimateString = Integer.toString(costEstimateInteger);
         WebElement newLossCostEstimate  = driver.findElement(By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td[6]/div"));
-        Actions action = new Actions(driver);
         //action.click(newLossCostEstimate).sendKeys(costEstimateString).perform();
         action.click(newLossCostEstimate);
         action.sendKeys(newLossCostEstimate, costEstimateString).build().perform();
@@ -79,7 +79,6 @@ public class SetReservesUnderEventsPage extends BasePage {
         costEstimateInteger = costEstimateInteger + 20000;
         String costEstimateString = Integer.toString(costEstimateInteger);
         WebElement newLossCostEstimate  = driver.findElement(By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td[6]/div"));
-        Actions action = new Actions(driver);
         //action.click(newLossCostEstimate).sendKeys(costEstimateString).perform();
         action.click(newLossCostEstimate);
         action.sendKeys(newLossCostEstimate, costEstimateString).build().perform();
@@ -97,7 +96,6 @@ public class SetReservesUnderEventsPage extends BasePage {
         costEstimateInteger = costEstimateInteger - 20000;
         String costEstimateString = Integer.toString(costEstimateInteger);
         WebElement newLossCostEstimate  = driver.findElement(By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td[6]/div"));
-        Actions action = new Actions(driver);
         //action.click(newLossCostEstimate).sendKeys(costEstimateString).perform();
         action.click(newLossCostEstimate);
         action.sendKeys(newLossCostEstimate, costEstimateString).build().perform();
@@ -105,7 +103,6 @@ public class SetReservesUnderEventsPage extends BasePage {
 
     public String getSoftWarningValidationResults(){
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         String validationResultsText = null;
         while(staleElement){
             try{
@@ -129,15 +126,12 @@ public class SetReservesUnderEventsPage extends BasePage {
 
     public SummaryForFinancialsUnderEventsPage clickSaveButtonForSetReserves(){
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         while(staleElement){
             try{
                 Thread.sleep(600);
                 wait.until(ExpectedConditions.presenceOfElementLocated(reserveSaveButton));
                 WebElement element = driver.findElement(reserveSaveButton);
-                JavascriptExecutor executor = (JavascriptExecutor)driver;
                 executor.executeScript("arguments[0].click();", element);
-                //driver.findElement(reserveSaveButton).click();
                 staleElement = false;
             } catch(StaleElementReferenceException e){
                 staleElement = true;
@@ -150,12 +144,10 @@ public class SetReservesUnderEventsPage extends BasePage {
 
     public String getValidationResultsWaringPopUp(){
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         String validationResultsText = null;
         while(staleElement){
             try{
                 //Thread.sleep(800);
-                //WebElement element = driver.findElement(validationResultsAlert);
                 wait.until(ExpectedConditions.presenceOfElementLocated(validationResultsAlert));
                 validationResultsText = driver.findElement(validationResultsAlert).getText();
                 staleElement = false;
@@ -166,23 +158,13 @@ public class SetReservesUnderEventsPage extends BasePage {
             }*/
         }
         return validationResultsText;
-        /*WebDriverWait wait = new WebDriverWait(driver, 10);
-        try{
-            wait.until(ExpectedConditions.presenceOfElementLocated(validationResultsAlert));
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        return driver.findElement(validationResultsAlert).getText();*/
     }
 
     public void clickClearButtonForValidationResultsAlert(){
         WebElement clearButtonForAlertElement = driver.findElement(clearButtonForAlert);
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         for(int i=0; i<=2;i++){
             try{
                 Thread.sleep(500);
-                //if (clearButtonForAlertElement.isDisplayed()) {
                     wait.until(ExpectedConditions.presenceOfElementLocated(clearButtonForAlert));
                     ((JavascriptExecutor) driver).executeScript("arguments[0].click();", clearButtonForAlertElement);
                /* } else {
@@ -199,8 +181,6 @@ public class SetReservesUnderEventsPage extends BasePage {
 
     public void resetLossCostEstimateToThirtyK(){
         WebElement newLossCostEstimate  = driver.findElement(newLossCostEstimateField);
-        Actions action = new Actions(driver);
-        //action.click(newLossCostEstimate).sendKeys("30000").perform();
         action.click(newLossCostEstimate);
         action.sendKeys(newLossCostEstimate, "30000").build().perform();
     }
@@ -216,7 +196,6 @@ public class SetReservesUnderEventsPage extends BasePage {
         costEstimateInteger = costEstimateInteger + 1;
         String costEstimateString = Integer.toString(costEstimateInteger);
         WebElement newExpenseCostEstimate = driver.findElement(newExpenseCostEstimateField);
-        Actions action = new Actions(driver);
         //action.click(newExpenseCostEstimate).sendKeys(costEstimateString).perform();
         action.click(newExpenseCostEstimate);
         action.sendKeys(newExpenseCostEstimate, costEstimateString).build().perform();
@@ -233,8 +212,6 @@ public class SetReservesUnderEventsPage extends BasePage {
         costEstimateInteger = costEstimateInteger + 1;
         String costEstimateString = Integer.toString(costEstimateInteger);
         WebElement newExpenseCostEstimate = driver.findElement(newMultipleExpenseCostEstimateField);
-        Actions action = new Actions(driver);
-        //action.click(newExpenseCostEstimate);
         //action.sendKeys(newExpenseCostEstimate, costEstimateString).build().perform();
         action.click(newExpenseCostEstimate).sendKeys(costEstimateString).build().perform();
 
@@ -252,14 +229,12 @@ public class SetReservesUnderEventsPage extends BasePage {
         String costEstimateString = Integer.toString(costEstimateInteger);
         System.out.println(costEstimateInteger);
         WebElement newExpenseCostEstimate = driver.findElement(newExpenseCostEstimateField);
-        Actions action = new Actions(driver);
         action.click(newExpenseCostEstimate);
         action.sendKeys(newExpenseCostEstimate, costEstimateString).build().perform();
     }
 
     public void changeCostEstimateForLossCostTo3K(){
         WebElement newLossCostEstimateFieldAction = driver.findElement(newLossCostEstimateField);
-        Actions action = new Actions(driver);
         driver.findElement(newLossCostEstimateField).click();
         action.sendKeys(newLossCostEstimateFieldAction, threeK).build().perform();
     }
@@ -267,14 +242,12 @@ public class SetReservesUnderEventsPage extends BasePage {
     public void changeCostEstimateForExpenseCostTo3K() throws InterruptedException {
         Thread.sleep(600);
         WebElement newExpenseCostEstimateFieldAction = driver.findElement(newExpenseCostEstimateField);
-        Actions action = new Actions(driver);
         driver.findElement(newExpenseCostEstimateField).click();
         action.sendKeys(newExpenseCostEstimateFieldAction, threeK).build().perform();
     }
 
     public String getNewMultiValueForLoss() {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         String storedValueForValidation = null;
         while(staleElement){
             try{
@@ -290,7 +263,6 @@ public class SetReservesUnderEventsPage extends BasePage {
 
     public String getNewMultiValueForExpense() {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         String storedValueForValidation = null;
         while(staleElement){
             try{
@@ -305,16 +277,15 @@ public class SetReservesUnderEventsPage extends BasePage {
     }
 
     public void clickAddForReserve() {
+        wait.until(ExpectedConditions.presenceOfElementLocated(addButtonForReserve));
         driver.findElement(addButtonForReserve).click();
     }
 
     public SummaryForFinancialsUnderEventsPage clickCancelForReserve() {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         while(staleElement){
             try{
                 WebElement element = driver.findElement(cancelButtonForReserve);
-                JavascriptExecutor executor = (JavascriptExecutor)driver;
                 wait.until(ExpectedConditions.presenceOfElementLocated(cancelButtonForReserve));
                 executor.executeScript("arguments[0].click();", element);
                 staleElement = false;
@@ -322,13 +293,11 @@ public class SetReservesUnderEventsPage extends BasePage {
                 staleElement = true;
             }
         }
-        //driver.findElement(cancelButtonForReserve).click();
         return new SummaryForFinancialsUnderEventsPage(driver);
     }
 
     public void addValueInReserveForCancel() {
         WebElement newLossCostEstimate  = driver.findElement(newLossCostEstimateField);
-        Actions action = new Actions(driver);
         action.click(newLossCostEstimate);
         action.sendKeys(newLossCostEstimate, "110").build().perform();
     }
@@ -341,7 +310,6 @@ public class SetReservesUnderEventsPage extends BasePage {
     }
 
     public void sendNewLostCostExposureTwoPlusOne(){
-        Actions action = new Actions(driver);
         costEstimateInteger = costEstimateInteger + 1;
         String costEstimateString = Integer.toString(costEstimateInteger);
         WebElement newLossCostEstimate  = driver.findElement(newExposureTwoLossCost);
@@ -352,7 +320,6 @@ public class SetReservesUnderEventsPage extends BasePage {
 
     public String getNewMultiValueForExposureTwoLoss() {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         String storedValueForValidation = null;
         while(staleElement){
             try{

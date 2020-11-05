@@ -27,11 +27,12 @@ public class ExposuresUnderEventsPage extends BasePage {
     private final By exposureClassificationDropdown = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailDV:VehicleDamageDV:LMExposureOverallCommonInputSet:Exposure_LMClaimClassCode-inputEl");
     private final By exposureClassificationErrorMessage = By.id("WebMessageWorksheet:WebMessageWorksheetScreen:grpMsgs");
     private final By cancelButton = By.id("ExposureDetail:ExposureDetailScreen:Cancel-btnInnerEl");
-    //public Actions actions = new Actions(driver);
-    //WebDriverWait wait = new WebDriverWait(driver, 10);
 
     public ExposuresUnderEventsPage(WebDriver driver){
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, 8);
+        this.action = new Actions(driver);
+        this.executor = (JavascriptExecutor)driver;
     }
 
     public void clickCollisionExposureNoOne(){
@@ -43,10 +44,6 @@ public class ExposuresUnderEventsPage extends BasePage {
         return new SetReservesUnderEventsPage(driver);
     }
 
-   /* public boolean presenceOfEditExposureButton(){
-        WebElement element = driver.findElement(editReserve);
-        return element.isDisplayed();
-    }*/
    public int presenceOfEditExposureButton() {
        int element = driver.findElements(editReserve).size();
        return element;
@@ -56,7 +53,6 @@ public class ExposuresUnderEventsPage extends BasePage {
     }
 
     public void clickCloseExposureDropdown(){
-        WebDriverWait wait = new WebDriverWait(driver, 10);
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated((closeExposureDropdown)));
             driver.findElement(closeExposureDropdown).click();
@@ -68,7 +64,6 @@ public class ExposuresUnderEventsPage extends BasePage {
     }
 
     public void clickClosePropertyExposureDropdown(){
-        WebDriverWait wait = new WebDriverWait(driver, 10);
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated((closePropertyExposureDropdown)));
             driver.findElement(closePropertyExposureDropdown).click();
@@ -88,44 +83,36 @@ public class ExposuresUnderEventsPage extends BasePage {
     }
 
     public void selectErrorFromOutcomeDropdown(){
-        //driver.findElement(outcomeDropdown).click();
         WebElement ele = driver.findElement(outcomeDropdown);
-        Actions action = new Actions(driver);
         action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ENTER ).perform();
     }
 
     public void selectErrorFromPropertyOutcomeDropdown(){
         WebElement ele = driver.findElement(outcomePropertyDropdown);
-        Actions action = new Actions(driver);
         action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ENTER ).perform();
     }
 
     public void selectYesFromDirectDealDropdown(){
         WebElement ele = driver.findElement(directDealAtClosingDropdown);
-        Actions action = new Actions(driver);
         action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ENTER ).perform();
     }
 
     public void selectDuplicateFromSpecificReasonDropdown(){
         WebElement ele = driver.findElement(specificReasonDropdown);
-        Actions action = new Actions(driver);
         action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ENTER ).perform();
     }
 
     public void selectDuplicateFromPropertySpecificReasonDropdown(){
         WebElement ele = driver.findElement(specificReasonDropdownForProperty);
-        Actions action = new Actions(driver);
         action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ENTER ).perform();
     }
 
     public void clickUpdate(){
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         while(staleElement){
             try{
                 //Thread.sleep(800);
                 WebElement element = driver.findElement(updateButton);
-                JavascriptExecutor executor = (JavascriptExecutor)driver;
                 wait.until(ExpectedConditions.presenceOfElementLocated(updateButton));
                 executor.executeScript("arguments[0].click();", element);
                 staleElement = false;
@@ -135,7 +122,6 @@ public class ExposuresUnderEventsPage extends BasePage {
                 e.printStackTrace();
             }*/
         }
-      //driver.findElement(updateButton).click();
     }
 
     public void clickReopenExposureButton(){
@@ -144,11 +130,9 @@ public class ExposuresUnderEventsPage extends BasePage {
 
     public void clickClearButton(){
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         while(staleElement){
             try{
                 WebElement element = driver.findElement(clearWarningButton);
-                JavascriptExecutor executor = (JavascriptExecutor)driver;
                 wait.until(ExpectedConditions.presenceOfElementLocated(clearWarningButton));
                 executor.executeScript("arguments[0].click();", element);
                 staleElement = false;
@@ -166,12 +150,10 @@ public class ExposuresUnderEventsPage extends BasePage {
 
     public void clickUpToExposuresLink() {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         while(staleElement){
             try{
                 Thread.sleep(800);
                 WebElement element = driver.findElement(upToExposuresLink);
-                JavascriptExecutor executor = (JavascriptExecutor)driver;
                 wait.until(ExpectedConditions.presenceOfElementLocated(upToExposuresLink));
                 executor.executeScript("arguments[0].click();", element);
                 staleElement = false;
@@ -181,7 +163,6 @@ public class ExposuresUnderEventsPage extends BasePage {
                 e.printStackTrace();
             }
         }
-       //driver.findElement(upToExposuresLink);
     }
 
     public String getExposureStatus(){
@@ -190,8 +171,6 @@ public class ExposuresUnderEventsPage extends BasePage {
 
     public void selectHomeOfficeFromExposureClassificationDropdown(){
         boolean timeoutElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
-        Actions action = new Actions(driver);
         while(timeoutElement){
             try{
                 Thread.sleep(300);
@@ -207,11 +186,9 @@ public class ExposuresUnderEventsPage extends BasePage {
 
     public String getErrorExposureClassificationMessage() {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
         String validationResultsErrorText = null;
         while(staleElement){
             try{
-                //WebElement element = driver.findElement(exposureClassificationErrorMessage);
                 wait.until(ExpectedConditions.presenceOfElementLocated(exposureClassificationErrorMessage));
                 validationResultsErrorText = driver.findElement(exposureClassificationErrorMessage).getText();
                 staleElement = false;

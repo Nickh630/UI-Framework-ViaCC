@@ -21,8 +21,9 @@ public class ReserveWarningTests extends BaseTest {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("631066201");
-        eventsPage.clickEventSearchIcon();eventsPage.clickActionsDropdown();
+        eventsPage.setEventNumberSearch("521099301");
+        eventsPage.clickEventSearchIcon();
+        eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
        /* ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
         exposuresUnderEventsPage.clickCollisionExposureNoOne();
@@ -45,7 +46,7 @@ public class ReserveWarningTests extends BaseTest {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("631066201");
+        eventsPage.setEventNumberSearch("521099301");
         eventsPage.clickEventSearchIcon();
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();

@@ -54,12 +54,14 @@ public class ReserveHardWarningTests extends BaseTest {
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.changeCostEstimateForExpenseCostTo3K();
         setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        pageRefreshInstant();
         //assertEquals(setReservesUnderEventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present");
         assertEquals(setReservesUnderEventsPage.getSoftWarningValidationResults(),
                 "New Cost Estimate must be greater than or equal to Net Paid to Date. Rule:TRNVRES05",
                 "Unexpected Hard Warning message");
         //setReservesUnderEventsPage.clickClearButtonForValidationResultsAlert();
         setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        pageRefreshInstant();
         //assertEquals(setReservesUnderEventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present");
         assertEquals(setReservesUnderEventsPage.getSoftWarningValidationResults(),
                 "New Cost Estimate must be greater than or equal to Net Paid to Date. Rule:TRNVRES05",
@@ -82,11 +84,13 @@ public class ReserveHardWarningTests extends BaseTest {
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.changeCostEstimateForLossCostTo3K();
         setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        pageRefreshInstant();
         //assertEquals(setReservesUnderEventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present");
         assertEquals(setReservesUnderEventsPage.getSoftWarningValidationResults(),
                 "New Cost Estimate must be greater than or equal to Net Paid to Date. Rule:TRNVRES05",
                 "Unexpected Hard Warning message");
         setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        pageRefreshInstant();
         assertEquals(setReservesUnderEventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present");
         assertEquals(setReservesUnderEventsPage.getSoftWarningValidationResults(),
                 "New Cost Estimate must be greater than or equal to Net Paid to Date. Rule:TRNVRES05",

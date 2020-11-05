@@ -7,8 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BasePage {
     public WebDriver driver;
-    //public Actions action = new Actions(driver);
-    //public WebDriverWait wait;
-    //public JavascriptExecutor executor = (JavascriptExecutor)driver;
+    public Actions action;
+    public WebDriverWait wait;
+    public JavascriptExecutor executor;
 
 }

@@ -1,7 +1,10 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.events.EventsPage;
 
 public class HomePage extends BasePage  {
@@ -12,6 +15,9 @@ public class HomePage extends BasePage  {
 
     public HomePage(WebDriver driver){
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, 8);
+        this.action = new Actions(driver);
+        this.executor = (JavascriptExecutor)driver;
     }
 
     public String getAlertText(){

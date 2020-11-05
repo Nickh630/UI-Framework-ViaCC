@@ -32,7 +32,6 @@ public class BaseTest {
     //private WebDriver driver = null;
     public RemoteWebDriver driver;
     protected LoginPage loginPage;
-    //Hello World 2
 
     @BeforeSuite
     public void beforeSuiteSetUp(){
@@ -117,7 +116,7 @@ public class BaseTest {
         driver.manage().deleteAllCookies();
         driver.get("https://test-pcm.lmig.com/palclaims/cc/ClaimCenter.do");
         driver.manage().window().maximize();
-        driver.manage().timeouts().pageLoadTimeout(12, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(11, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
         System.out.println(driver.getTitle());
         loginPage = new LoginPage(driver);

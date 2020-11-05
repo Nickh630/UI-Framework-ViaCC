@@ -20,21 +20,21 @@ public class EventsPage extends BasePage {
 
     public EventsPage(WebDriver driver){
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, 8);
+        this.action = new Actions(driver);
+        this.executor = (JavascriptExecutor)driver;
     }
 
     public void clickEventsDropdown() throws InterruptedException {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 6);
         int xOffset = 148/2 - 5;
-        Actions actions = new Actions(driver);
         while(staleElement){
             try{
                 Thread.sleep(1100);
                 wait.until(ExpectedConditions.presenceOfElementLocated(eventNumberArrow));
                 WebElement dropdown = driver.findElement(eventNumberArrow);
-                //JavascriptExecutor executor = (JavascriptExecutor)driver;
-                actions.moveToElement(dropdown, xOffset, 0);
-                actions.click().build().perform();
+                action.moveToElement(dropdown, xOffset, 0);
+                action.click().build().perform();
                 //executor.executeScript("arguments[0].click();", element);
                 //driver.findElement(reserveSaveButton).click();
                 staleElement = false;
@@ -53,21 +53,15 @@ public class EventsPage extends BasePage {
         actions.moveToElement(dropdown, xOffset, 0);
         actions.click().build().perform();*/
 
-
     public void setEventNumberSearch(String eventNumber){
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
-        //Actions action = new Actions(driver);
         while(staleElement){
             try{
                 Thread.sleep(400);
                 WebElement element = driver.findElement(eventNumberSearch);
-                JavascriptExecutor executor = (JavascriptExecutor)driver;
                 wait.until(ExpectedConditions.presenceOfElementLocated(eventNumberSearch));
                 executor.executeScript("arguments[0].click();", element);
                 driver.findElement(eventNumberSearch).sendKeys(eventNumber);
-                //action.click(newExpenseCostEstimate);
-                //action.sendKeys(element, eventNumber).build().perform();
                 staleElement = false;
             } catch(StaleElementReferenceException | NoSuchElementException | InterruptedException e){
                 staleElement = true;
@@ -81,16 +75,11 @@ public class EventsPage extends BasePage {
 
     public ExposuresUnderEventsPage clickExposuresOption() {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
-        JavascriptExecutor executor = (JavascriptExecutor)driver;
-        //Actions action = new Actions(driver);
         while(staleElement){
             try{
                 WebElement element = driver.findElement(exposures);
-                //JavascriptExecutor executor = (JavascriptExecutor)driver;
                 wait.until(ExpectedConditions.presenceOfElementLocated(exposures));
                 executor.executeScript("arguments[0].click();", element);
-                //driver.findElement(eventNumberSearch).sendKeys(eventNumber);
                 //action.click(newExpenseCostEstimate);
                 //action.sendKeys(element, eventNumber).build().perform();
                 staleElement = false;
@@ -98,19 +87,11 @@ public class EventsPage extends BasePage {
                 staleElement = true;
             }
         }
-        /*WebDriverWait wait = new WebDriverWait(driver, 10);
-        try {
-            wait.until(ExpectedConditions.presenceOfElementLocated((exposures)));
-            driver.findElement(exposures).click();
-        }
-        catch (StaleElementReferenceException | ElementClickInterceptedException e){
-            wait.until(ExpectedConditions.presenceOfElementLocated((exposures)));
-            driver.findElement(exposures).click();
-        }*/
         return new ExposuresUnderEventsPage(driver);
     }
 
     public SummaryForFinancialsUnderEventsPage clickFinancialsOption(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(financials));
         driver.findElement(financials).click();
         return new SummaryForFinancialsUnderEventsPage(driver);
     }
@@ -140,30 +121,21 @@ public class EventsPage extends BasePage {
 
     public ExposuresUnderEventsPage clickExposureOptionOne() {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
-        JavascriptExecutor executor = (JavascriptExecutor)driver;
-        //Actions action = new Actions(driver);
         while(staleElement){
             try{
                 WebElement element = driver.findElement(exposureOptionOne);
                 wait.until(ExpectedConditions.presenceOfElementLocated(exposureOptionOne));
                 executor.executeScript("arguments[0].click();", element);
-                //driver.findElement(eventNumberSearch).sendKeys(eventNumber);
-                //action.click(newExpenseCostEstimate);
-                //action.sendKeys(element, eventNumber).build().perform();
                 staleElement = false;
             } catch(StaleElementReferenceException | NoSuchElementException e){
                 staleElement = true;
             }
         }
-        //driver.findElement(exposureOptionOne).click();
         return new ExposuresUnderEventsPage(driver);
     }
 
     public EventDetailsUnderEventsPage clickEventDetailsOption() {
         boolean staleElement = true;
-        WebDriverWait wait = new WebDriverWait(driver, 8);
-        JavascriptExecutor executor = (JavascriptExecutor)driver;
         while(staleElement){
             try{
                 WebElement element = driver.findElement(eventDetails);
