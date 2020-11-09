@@ -17,7 +17,7 @@ public class ReserveWarningTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-14693")
     @Epic("Automated Testing-Deployments")
-    public void givenReservePrice_whenAddingLargeAmountToLCE_thenASoftWarningIsGiven() throws InterruptedException {
+    public void givenReserve_whenAddingLargeAmountToLCE_thenASoftWarningIsGiven() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -42,7 +42,7 @@ public class ReserveWarningTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-14693")
     @Epic("Automated Testing-Deployments")
-    public void givenReservePrice_whenSubtractingLargeAmountToLCE_thenASoftWarningIsGiven() throws InterruptedException {
+    public void givenReserve_whenSubtractingLargeAmountToLCE_thenASoftWarningIsGiven() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();

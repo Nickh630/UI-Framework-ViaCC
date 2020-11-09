@@ -17,6 +17,7 @@ public class EventsPage extends BasePage {
     private final By reserveOptionUnderActions = By.id("Claim:ClaimMenuActions:ClaimMenuActions_NewTransaction:ClaimMenuActions_NewTransaction_ReserveSet-textEl");
     private final By exposureOptionOne = By.id("ClaimSummary:ClaimSummaryScreen:ClaimSummaryExposuresLV:0:Order");
     private final By eventDetails = By.id("Claim:MenuLinks:Claim_ClaimLossDetailsGroup");
+    private final By printEventLink = By.id("Claim:ClaimMenuActions:ClaimFileMenuItemSet:ClaimMenuActions_ClaimActions:ClaimMenuActions_Print-textEl");
 
     public EventsPage(WebDriver driver){
         this.driver = driver;
@@ -100,7 +101,6 @@ public class EventsPage extends BasePage {
         WebElement actionsDropdownElement = driver.findElement(actionsDropdown);
         try {
             if (actionsDropdownElement.isDisplayed()) {
-                System.out.println("Clicking on element using java script click");
                 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", actionsDropdownElement);
             } else {
                 System.out.println("Unable to click on element");
@@ -147,6 +147,21 @@ public class EventsPage extends BasePage {
             }
         }
         return new EventDetailsUnderEventsPage(driver);
+    }
+
+    public PrintOptionsUnderEventsPage clickPrintEvent() {
+        boolean staleElement = true;
+        while(staleElement){
+            try{
+                WebElement element = driver.findElement(printEventLink);
+                wait.until(ExpectedConditions.presenceOfElementLocated(printEventLink));
+                executor.executeScript("arguments[0].click();", element);
+                staleElement = false;
+            } catch(StaleElementReferenceException | NoSuchElementException e){
+                staleElement = true;
+            }
+        }
+        return new PrintOptionsUnderEventsPage(driver);
     }
 }
 

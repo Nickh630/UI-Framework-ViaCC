@@ -19,7 +19,7 @@ public class UpdateMultipleReservesTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-17723")
     @Epic("Automated Testing-Deployments")
-    public void givenMultipleReservesForAuto_whenReservePricesAreUpdated_thenVerifyPrice() throws InterruptedException {
+    public void givenMultipleReservesForAuto_whenReservePricesAreUpdated_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -45,7 +45,7 @@ public class UpdateMultipleReservesTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-17723")
     @Epic("Automated Testing-Deployments")
-    public void givenMultipleReservesForProperty_whenReservePricesAreUpdated_thenVerifyPrice() throws InterruptedException {
+    public void givenMultipleReservesForProperty_whenReservesAreUpdated_thenVerifyReserveUpdates() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();

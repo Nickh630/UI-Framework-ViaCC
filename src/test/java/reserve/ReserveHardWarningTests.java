@@ -16,7 +16,7 @@ public class ReserveHardWarningTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-18136")
     @Epic("Automated Testing-Deployments")
-    public void givenPaidToDatePriceForAuto_whenChangingLCEReservePriceLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
+    public void givenPaidToDateForAuto_whenChangingLCEReserveLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -44,7 +44,7 @@ public class ReserveHardWarningTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-18136")
     @Epic("Automated Testing-Deployments")
-    public void givenPaidToDatePriceForAuto_whenChangingECEReservePriceLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
+    public void givenPaidToDateForAuto_whenChangingECEReserveLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -74,7 +74,7 @@ public class ReserveHardWarningTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-18136")
     @Epic("Automated Testing-Deployments")
-    public void givenPaidToDatePriceForProperty_whenChangingLCEReservePriceLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
+    public void givenPaidToDateForProperty_whenChangingLCEReserveLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -102,7 +102,7 @@ public class ReserveHardWarningTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-18136")
     @Epic("Automated Testing-Deployments")
-    public void givenPaidToDatePriceForProperty_whenChangingECEReservePriceLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
+    public void givenPaidToDateForProperty_whenChangingECEReserveLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();

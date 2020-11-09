@@ -24,6 +24,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
@@ -52,8 +54,9 @@ public class BaseTest {
             options.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.ACCEPT);
             //options.addArguments("--headless");
             options.getVersion();
-            /*options.merge(capabilities);
-            capabilities = DesiredCapabilities.chrome();*/
+            Map<String, Object> prefs = new HashMap<String, Object>();
+            prefs.put("download.default_directory", "C:\\Users\\n1514868\\Downloads\\ViaAutoDownloads");
+            options.setExperimentalOption("prefs", prefs);
             driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
         }
         else if (browser.equalsIgnoreCase("firefox")){

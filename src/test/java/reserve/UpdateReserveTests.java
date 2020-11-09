@@ -17,7 +17,7 @@ public class UpdateReserveTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-13684")
     @Epic("Automated Testing-Deployments")
-    public void givenEventNumber_whenReservePriceIsUpdated_thenVerifyPrice() throws InterruptedException {
+    public void givenLCEReserve_whenAddingAmount_thenVerifyNewPrice() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -39,7 +39,7 @@ public class UpdateReserveTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-15689")
     @Epic("Automated Testing-Deployments")
-    public void givenECEReservePrice_whenAddingAmount_thenVerifyNewPrice() throws InterruptedException {
+    public void givenECEReserve_whenAddingAmount_thenVerifyNewPrice() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -60,7 +60,7 @@ public class UpdateReserveTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-15689")
     @Epic("Automated Testing-Deployments")
-    public void givenECEReservePrice_whenSubtractingAmount_thenVerifyNewPrice() throws InterruptedException {
+    public void givenECEReserve_whenSubtractingAmount_thenVerifyNewPrice() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -81,7 +81,7 @@ public class UpdateReserveTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-14693")
     @Epic("Automated Testing-Deployments")
-    public void givenReservePrice_whenReserveSetByAddingLargeAmount_thenVerifyPrice() throws InterruptedException {
+    public void givenReserve_whenReserveSetByAddingLargeAmount_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -112,7 +112,7 @@ public class UpdateReserveTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-15689")
     @Epic("Automated Testing-Deployments")
-    public void givenReservePrice_whenReserveSetBySubtractingLargeAmount_thenVerifyPrice() throws InterruptedException {
+    public void givenReserve_whenReserveSetBySubtractingLargeAmount_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();

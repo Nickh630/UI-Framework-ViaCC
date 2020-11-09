@@ -17,7 +17,7 @@ public class UpdatePropertyReserveTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-17725")
     @Epic("Automated Testing-Deployments")
-    public void givenPropertyEventNumber_whenReservePriceIsIncreased_thenVerifyPrice() throws InterruptedException {
+    public void givenPropertyEventNumber_whenReserveIsIncreased_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -39,7 +39,7 @@ public class UpdatePropertyReserveTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-17725")
     @Epic("Automated Testing-Deployments")
-    public void givenPropertyEventNumber_whenReservePriceIsDecreased_thenVerifyPrice() throws InterruptedException {
+    public void givenPropertyEventNumber_whenReserveIsDecreased_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -62,7 +62,7 @@ public class UpdatePropertyReserveTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-17725")
     @Epic("Automated Testing-Deployments")
-    public void givenPropertyEventNumber_whenECEReservePriceIsIncreased_thenVerifyPrice() throws InterruptedException {
+    public void givenPropertyEventNumber_whenECEReserveIsIncreased_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
@@ -84,7 +84,7 @@ public class UpdatePropertyReserveTests extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-17725")
     @Epic("Automated Testing-Deployments")
-    public void givenPropertyEventNumber_whenECEReservePriceIsDecreased_thenVerifyPrice() throws InterruptedException {
+    public void givenPropertyEventNumber_whenECEReserveIsDecreased_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
