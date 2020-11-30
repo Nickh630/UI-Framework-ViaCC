@@ -119,12 +119,12 @@ public class BaseTest {
         driver.manage().deleteAllCookies();
         driver.get("https://test-pcm.lmig.com/palclaims/cc/ClaimCenter.do");
         driver.manage().window().maximize();
-        driver.manage().timeouts().pageLoadTimeout(11, TimeUnit.SECONDS);
+        //driver.manage().timeouts().pageLoadTimeout(11, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
         System.out.println(driver.getTitle());
         loginPage = new LoginPage(driver);
-        loginPage.setUsernameField("n9975299");
-        loginPage.setPasswordField("PALSTCC1");
+        loginPage.setUsernameField("n9995191");
+        loginPage.setPasswordField("VIArox02");
     }
 
     @AfterMethod

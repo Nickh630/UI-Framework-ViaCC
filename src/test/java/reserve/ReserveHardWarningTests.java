@@ -18,10 +18,13 @@ public class ReserveHardWarningTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenPaidToDateForAuto_whenChangingLCEReserveLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("791079001");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("791079001");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.changeCostEstimateForLossCostTo3K();
@@ -46,10 +49,13 @@ public class ReserveHardWarningTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenPaidToDateForAuto_whenChangingECEReserveLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("791079001");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+       /* EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("791079001");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.changeCostEstimateForExpenseCostTo3K();
@@ -75,11 +81,13 @@ public class ReserveHardWarningTests extends BaseTest {
     @Story("ANCP-18136")
     @Epic("Automated Testing-Deployments")
     public void givenPaidToDateForProperty_whenChangingLCEReserveLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
-        HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        HomePage homePage = loginPage.clickLoginButton();homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("401079101");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("401079101");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.changeCostEstimateForLossCostTo3K();
@@ -103,11 +111,13 @@ public class ReserveHardWarningTests extends BaseTest {
     @Story("ANCP-18136")
     @Epic("Automated Testing-Deployments")
     public void givenPaidToDateForProperty_whenChangingECEReserveLessThanPTD_thenAHardWarningIsGiven() throws InterruptedException {
-        HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        HomePage homePage = loginPage.clickLoginButton();homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("401079101");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+       /* EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("401079101");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.changeCostEstimateForExpenseCostTo3K();
@@ -116,6 +126,7 @@ public class ReserveHardWarningTests extends BaseTest {
         assertEquals(setReservesUnderEventsPage.getSoftWarningValidationResults(),
                 "New Cost Estimate must be greater than or equal to Net Paid to Date. Rule:TRNVRES05",
                 "Unexpected Hard Warning message");
+        pageRefreshInstant();
         setReservesUnderEventsPage.clickSaveButtonForSetReserves();
         assertEquals(setReservesUnderEventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present");
         assertEquals(setReservesUnderEventsPage.getSoftWarningValidationResults(),

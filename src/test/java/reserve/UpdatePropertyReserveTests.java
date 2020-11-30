@@ -19,10 +19,13 @@ public class UpdatePropertyReserveTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenPropertyEventNumber_whenReserveIsIncreased_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("451066201");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("451066201");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByOne();
@@ -41,10 +44,13 @@ public class UpdatePropertyReserveTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenPropertyEventNumber_whenReserveIsDecreased_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("451066201");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("451066201");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateBySubtractingOne();
@@ -64,10 +70,13 @@ public class UpdatePropertyReserveTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenPropertyEventNumber_whenECEReserveIsIncreased_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("451066201");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("451066201");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfExpenseCostEstimateByAddingOne();
@@ -86,18 +95,80 @@ public class UpdatePropertyReserveTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenPropertyEventNumber_whenECEReserveIsDecreased_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("451066201");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+       /* EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("451066201");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfExpenseCostEstimateBySubtractingOne();
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
-        assertEquals(summaryForFinancialsUnderEventsPage.getFinancialsSummaryAlertText(), "Pending Transactions", "Unexpected Message: Alert Incorrect");
         String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentExpenseCostEstimateFromFinancialsSummary(), pendingAmount, "Updated Price is incorrect");
+    }
+
+    @Test
+    @Description("Verifies the total cost exposure roll up matches the updated sum for Property event")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("ANCP-19447")
+    @Epic("Automated Testing-Deployments")
+    public void givenPropertyEventNumberWithExposuresThatCombine_whenOneExposureUpdatesByAdding_thenRollUpMatchesSum() throws InterruptedException {
+        HomePage homePage = loginPage.clickLoginButton();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("301079101");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
+        eventsPage.clickEventsDropdown();
+        eventsPage.setEventNumberSearch("301079101");
+        eventsPage.clickEventSearchIcon();*/
+        eventsPage.clickActionsDropdown();
+        SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
+        String totalRollupValue = setReservesUnderEventsPage.getRollUpLossCostValue();
+        setReservesUnderEventsPage.convertAndSendRollUpLossCostPlusOne(totalRollupValue);
+        setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        pageRefreshInstant();
+        String sumAmount = setReservesUnderEventsPage.getNewSumCostEstimate();
+        setReservesUnderEventsPage.clickClearButtonForValidationResultsAlert();
+        SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        summaryForFinancialsUnderEventsPage.pageRefreshOnRollUpForAcesProcessing();
+        pageRefreshInstant();
+        eventsPage.clickExposuresOption();
+        eventsPage.clickFinancialsOption();
+        assertEquals(summaryForFinancialsUnderEventsPage.getRollUpLCEFromFinancialsSummary(), sumAmount, "Updated Price is incorrect");
+    }
+
+    @Test
+    @Description("Verifies the total cost exposure roll up matches the updated sum when subtracting for Property event")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("ANCP-20203")
+    @Epic("Automated Testing-Deployments")
+    public void givenPropertyEventNumberWithExposuresThatCombine_whenOneExposureUpdatesBySubtracting_thenRollUpMatchesSum() throws InterruptedException {
+        HomePage homePage = loginPage.clickLoginButton();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("301079101");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
+        eventsPage.clickEventsDropdown();
+        eventsPage.setEventNumberSearch("301079101");
+        eventsPage.clickEventSearchIcon();*/
+        eventsPage.clickActionsDropdown();
+        SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
+        String totalRollupValue = setReservesUnderEventsPage.getRollUpLossCostValue();
+        setReservesUnderEventsPage.convertAndSendRollUpLossCostMinusOne(totalRollupValue);
+        setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        pageRefreshInstant();
+        String sumAmount = setReservesUnderEventsPage.getNewSumCostEstimate();
+        //setReservesUnderEventsPage.clickClearButtonForValidationResultsAlert();
+        SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        summaryForFinancialsUnderEventsPage.pageRefreshOnRollUpForAcesProcessing();
+        pageRefreshInstant();
+        eventsPage.clickExposuresOption();
+        eventsPage.clickFinancialsOption();
+        assertEquals(summaryForFinancialsUnderEventsPage.getRollUpLCEFromFinancialsSummary(), sumAmount, "Updated Price is incorrect");
     }
 }

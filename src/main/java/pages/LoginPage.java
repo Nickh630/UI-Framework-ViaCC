@@ -1,10 +1,14 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class LoginPage extends BasePage {
 
@@ -14,6 +18,8 @@ public class LoginPage extends BasePage {
 
     public LoginPage(WebDriver driver){
         this.driver = driver;
+        this.fluentWait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(20)).pollingEvery(Duration.ofMillis(400)).ignoring(NoSuchElementException.class);
     }
 
     public void setUsernameField(String username){

@@ -3,21 +3,24 @@ package pages.events;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
+
+import java.time.Duration;
 
 public class ExposuresUnderEventsPage extends BasePage {
 
     private final By collisionNoOne = By.id("ClaimExposures:ClaimExposuresScreen:ExposuresLV:0:Order");
     private final By editReserve = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailScreen_CreateReserveButton-btnInnerEl");
     private final By editButton = By.id("ExposureDetail:ExposureDetailScreen:Edit-btnInnerEl");
-    private final By closeExposureDropdown = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailDV:PropertyDamageDV:LMExposureStatusCommonInputSet:Closing_ClosingInd-inputEl");
+    private final By closeExposureDropdown = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailDV:VehicleDamageDV:LMExposureStatusCommonInputSet:Closing_ClosingInd-inputEl");
     private final By closePropertyExposureDropdown = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailDV:PropertyDamagePropertyDV:LMPropExpCommonInputSet:LMExposureStatusCommonInputSet:Closing_ClosingInd-inputEl");
-    private final By outcomeDropdown = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailDV:PropertyDamageDV:LMExposureCloseCommonInputSet:Closing_ClosingReason-inputEl");
+    private final By outcomeDropdown = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailDV:VehicleDamageDV:LMExposureCloseCommonInputSet:Closing_ClosingReason-inputEl");
     private final By directDealAtClosingDropdown = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailDV:PropertyDamageDV:LMExposureCloseCommonInputSet:Closing_DirectDealAtClose-inputEl");
     private final By updateButton = By.id("ExposureDetail:ExposureDetailScreen:Update-btnInnerEl");
     private final By reopenExposureButton = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailScreen_ReopenButton-btnInnerEl");
-    private final By specificReasonDropdown = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailDV:PropertyDamageDV:LMExposureCloseCommonInputSet:Closing_ClosingSubReason-inputEl");
+    private final By specificReasonDropdown = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailDV:VehicleDamageDV:LMExposureCloseCommonInputSet:Closing_ClosingSubReason-inputEl");
     private final By clearWarningButton = By.id("WebMessageWorksheet:WebMessageWorksheetScreen:WebMessageWorksheet_ClearButton-btnInnerEl");
     private final By secondReopenExposureButton = By.id("ReopenExposurePopup:ReopenExposureScreen:Update-btnInnerEl");
     private final By upToExposuresLink = By.id("ExposureDetail:ExposureDetail_UpLink");
@@ -33,6 +36,8 @@ public class ExposuresUnderEventsPage extends BasePage {
         this.wait = new WebDriverWait(driver, 8);
         this.action = new Actions(driver);
         this.executor = (JavascriptExecutor)driver;
+        this.fluentWait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(20)).pollingEvery(Duration.ofMillis(400)).ignoring(NoSuchElementException.class);
     }
 
     public void clickCollisionExposureNoOne(){
@@ -54,11 +59,11 @@ public class ExposuresUnderEventsPage extends BasePage {
 
     public void clickCloseExposureDropdown(){
         try {
-            wait.until(ExpectedConditions.presenceOfElementLocated((closeExposureDropdown)));
+            fluentWait.until(ExpectedConditions.presenceOfElementLocated((closeExposureDropdown)));
             driver.findElement(closeExposureDropdown).click();
         }
         catch (StaleElementReferenceException e){
-            wait.until(ExpectedConditions.presenceOfElementLocated((closeExposureDropdown)));
+            fluentWait.until(ExpectedConditions.elementToBeClickable((closeExposureDropdown)));
             driver.findElement(closeExposureDropdown).click();
         }
     }

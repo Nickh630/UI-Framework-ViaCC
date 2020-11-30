@@ -3,8 +3,12 @@ package pages.events;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class EventsPage extends BasePage {
 
@@ -24,42 +28,37 @@ public class EventsPage extends BasePage {
         this.wait = new WebDriverWait(driver, 8);
         this.action = new Actions(driver);
         this.executor = (JavascriptExecutor)driver;
+        this.fluentWait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(20)).pollingEvery(Duration.ofMillis(300)).ignoring(NoSuchElementException.class);
     }
 
     public void clickEventsDropdown() throws InterruptedException {
         boolean staleElement = true;
         int xOffset = 148/2 - 5;
+        //int xOffset = 108/2 - 5;
+        WebElement dropdown = driver.findElement(eventNumberArrow);
         while(staleElement){
             try{
                 Thread.sleep(1100);
-                wait.until(ExpectedConditions.presenceOfElementLocated(eventNumberArrow));
-                WebElement dropdown = driver.findElement(eventNumberArrow);
+                //wait.until(ExpectedConditions.presenceOfElementLocated(eventNumberArrow));
+                fluentWait.until(ExpectedConditions.presenceOfElementLocated(eventNumberArrow));
                 action.moveToElement(dropdown, xOffset, 0);
                 action.click().build().perform();
                 //executor.executeScript("arguments[0].click();", element);
-                //driver.findElement(reserveSaveButton).click();
                 staleElement = false;
-            } catch(StaleElementReferenceException e){
+            } catch(StaleElementReferenceException | NoSuchElementException e){
                 staleElement = true;
-            } /*catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
+            }
         }
-        //return new SummaryForFinancialsUnderEventsPage(driver);
     }
-        /*Thread.sleep(2500);
-        WebElement dropdown = driver.findElement(eventNumberArrow);
-        int xOffset = 148/2 - 5;
-        Actions actions = new Actions(driver);
-        actions.moveToElement(dropdown, xOffset, 0);
-        actions.click().build().perform();*/
 
     public void setEventNumberSearch(String eventNumber){
         boolean staleElement = true;
+        WebElement element = driver.findElement(eventNumberSearch);
         while(staleElement){
             try{
                 Thread.sleep(400);
-                WebElement element = driver.findElement(eventNumberSearch);
+
                 wait.until(ExpectedConditions.presenceOfElementLocated(eventNumberSearch));
                 executor.executeScript("arguments[0].click();", element);
                 driver.findElement(eventNumberSearch).sendKeys(eventNumber);
@@ -99,9 +98,12 @@ public class EventsPage extends BasePage {
 
     public void clickActionsDropdown(){
         WebElement actionsDropdownElement = driver.findElement(actionsDropdown);
+        wait.until(ExpectedConditions.presenceOfElementLocated(actionsDropdown));
         try {
             if (actionsDropdownElement.isDisplayed()) {
-                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", actionsDropdownElement);
+                fluentWait.until(ExpectedConditions.elementToBeClickable(actionsDropdown));
+                executor.executeScript("arguments[0].click();", actionsDropdownElement);
+                Thread.sleep(2000);
             } else {
                 System.out.println("Unable to click on element");
             }
@@ -115,6 +117,7 @@ public class EventsPage extends BasePage {
     }
 
     public SetReservesUnderEventsPage clickReservesOptionUnderActions(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(reserveOptionUnderActions));
         driver.findElement(reserveOptionUnderActions).click();
         return new SetReservesUnderEventsPage(driver);
     }

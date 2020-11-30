@@ -19,10 +19,13 @@ public class ExposureStatusTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenClosedAutoExposure_whenReopening_thenVerifyExposureStatusIsSetToOpen() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("921099301");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("831047101");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
         exposuresUnderEventsPage.clickCollisionExposureNoOne();
             if(exposuresUnderEventsPage.presenceOfEditExposureButton()>0){
@@ -31,7 +34,7 @@ public class ExposureStatusTests extends BaseTest {
                 exposuresUnderEventsPage.selectYesForClosureValue();
                 exposuresUnderEventsPage.selectErrorFromOutcomeDropdown();
                 exposuresUnderEventsPage.selectDuplicateFromSpecificReasonDropdown();
-                exposuresUnderEventsPage.selectYesFromDirectDealDropdown();
+                //exposuresUnderEventsPage.selectYesFromDirectDealDropdown();
                 exposuresUnderEventsPage.clickUpdate();
                 exposuresUnderEventsPage.clickClearButton();
                 exposuresUnderEventsPage.clickUpdate();
@@ -49,10 +52,13 @@ public class ExposureStatusTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenClosedAutoExposure_whenReopening_thenVerifyExposureStatusIsSetToOpe() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("921099301");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+       /* EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("831047101");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
         exposuresUnderEventsPage.clickCollisionExposureNoOne();
         if(exposuresUnderEventsPage.presenceOfEditExposureButton()==0){
@@ -64,7 +70,7 @@ public class ExposureStatusTests extends BaseTest {
         exposuresUnderEventsPage.selectYesForClosureValue();
         exposuresUnderEventsPage.selectErrorFromOutcomeDropdown();
         exposuresUnderEventsPage.selectDuplicateFromSpecificReasonDropdown();
-        exposuresUnderEventsPage.selectYesFromDirectDealDropdown();
+        //exposuresUnderEventsPage.selectYesFromDirectDealDropdown();
         exposuresUnderEventsPage.clickUpdate();
         exposuresUnderEventsPage.clickClearButton();
         exposuresUnderEventsPage.clickUpdate();
@@ -79,10 +85,13 @@ public class ExposureStatusTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenClosedPropertyExposure_whenReopening_thenVerifyExposureStatusIsSetToOpen() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("731066201");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("731066201");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
         exposuresUnderEventsPage.clickCollisionExposureNoOne();
         if(exposuresUnderEventsPage.presenceOfEditExposureButton()>0){
@@ -106,10 +115,13 @@ public class ExposureStatusTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenOpenPropertyExposure_whenClosing_thenVerifyExposureStatusIsSetToClosed() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("731066201");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("731066201");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
         exposuresUnderEventsPage.clickCollisionExposureNoOne();
         if(exposuresUnderEventsPage.presenceOfEditExposureButton()==0){

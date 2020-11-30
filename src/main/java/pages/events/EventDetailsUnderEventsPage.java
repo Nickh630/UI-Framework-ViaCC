@@ -3,8 +3,11 @@ package pages.events;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
+
+import java.time.Duration;
 
 public class EventDetailsUnderEventsPage extends BasePage {
 
@@ -19,6 +22,8 @@ public class EventDetailsUnderEventsPage extends BasePage {
         this.wait = new WebDriverWait(driver, 8);
         this.action = new Actions(driver);
         this.executor = (JavascriptExecutor)driver;
+        this.fluentWait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(20)).pollingEvery(Duration.ofMillis(400)).ignoring(NoSuchElementException.class);
     }
 
     public void clickEventDetailsEditButton() throws InterruptedException {

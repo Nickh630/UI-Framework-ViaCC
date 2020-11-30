@@ -20,7 +20,7 @@ public class ReserveRegressionTests extends BaseTest {
     public void givenExposure_whenValueIsAdjustedThenCanceled_thenFinancialSummaryScreenDisplays() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
+        //eventsPage.clickEventsDropdown();
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.clickAddForReserve();

@@ -19,10 +19,13 @@ public class ExposureWarningTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenAutoExposure_whenSelectingHomeOfficeForExposureClassification_thenErrorMessageDisplays() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("991079001");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("991079001");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposureOptionOne();
         exposuresUnderEventsPage.clickEditButton();
         exposuresUnderEventsPage.selectHomeOfficeFromExposureClassificationDropdown();
@@ -38,10 +41,13 @@ public class ExposureWarningTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenPropExposure_whenSelectingHomeOfficeForExposureClassification_thenErrorMessageDisplays() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("861096501");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("861096501");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         EventDetailsUnderEventsPage eventDetailsUnderEventsPage = eventsPage.clickEventDetailsOption();
         eventDetailsUnderEventsPage.clickEventDetailsEditButton();
         eventDetailsUnderEventsPage.selectHomeOfficeFromEventClassificationDropdown();

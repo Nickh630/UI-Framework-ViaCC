@@ -21,10 +21,13 @@ public class UpdateMultipleReservesTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenMultipleReservesForAuto_whenReservePricesAreUpdated_thenVerifyReserve() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("391079001");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+       /* EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("391079001");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByOne();
@@ -47,10 +50,13 @@ public class UpdateMultipleReservesTests extends BaseTest {
     @Epic("Automated Testing-Deployments")
     public void givenMultipleReservesForProperty_whenReservesAreUpdated_thenVerifyReserveUpdates() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
-        EventsPage eventsPage = homePage.clickEventsPage();
+        homePage.clickEventsDropdown();
+        homePage.setEventNumberSearch("201079101");
+        EventsPage eventsPage = homePage.clickEventSearchIcon();
+        /*EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickEventsDropdown();
         eventsPage.setEventNumberSearch("201079101");
-        eventsPage.clickEventSearchIcon();
+        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByOne();

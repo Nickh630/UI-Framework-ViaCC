@@ -3,8 +3,11 @@ package pages.events;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
+
+import java.time.Duration;
 
 public class SetReservesUnderEventsPage extends BasePage {
 
@@ -15,6 +18,9 @@ public class SetReservesUnderEventsPage extends BasePage {
     private final By validationResultsAlert = By.id("WebMessageWorksheet:WebMessageWorksheetScreen:ttlBar");
     private final By clearButtonForAlert = By.id("WebMessageWorksheet:WebMessageWorksheetScreen:WebMessageWorksheet_ClearButton-btnInnerEl");
     private final By newLossCostEstimateField = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[2]/td[6]/div");
+    private final By newFirstRowLossCostEstimateField = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr/td[6]/div");
+    //private final By newFourthRowLossCostEstimateField = By.id("textfield-1203-inputEl");
+    private final By newFourthRowLossCostEstimateField = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[4]/td[6]/div");
     private final By currentExpenseCostEstimate = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/td[5]/div");
     private final By currentMultipleExpenseCostEstimate = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/td[5]/div");
     private final By newMultipleExpenseCostEstimateField = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[1]/td[6]/div");
@@ -23,7 +29,13 @@ public class SetReservesUnderEventsPage extends BasePage {
     private final By cancelButtonForReserve = By.id("NewReserveSet:NewReserveSetScreen:Cancel-btnInnerEl");
     private final By exposureTwoCurrentLossCostEstimate = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[3]/td[5]/div");
     private final By newExposureTwoLossCost = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[3]/td[6]/div");
+    private final By rollUpTotalLossCost = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[7]/td/div/div[2]/div/table/tbody/tr/td[4]/div");
+    private final By reserveSumField = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tfoot/tr/td[6]/div");
+    private final By rollUpSumFieldForWarning = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tfoot/tr/td[6]/div/a");
+    //private final By getRollUpTotalForWarning = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tfoot/tr/td[6]/div");
+    private final By rollUpValidationResultsWarning = By.xpath("/html/body/div[1]/div[6]/div[2]/div/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/div");
     private Integer costEstimateInteger;
+    private Integer totalRollupInteger;
     private final String threeK = "3000";
 
     public SetReservesUnderEventsPage(WebDriver driver){
@@ -31,6 +43,8 @@ public class SetReservesUnderEventsPage extends BasePage {
         this.wait = new WebDriverWait(driver, 8);
         this.action = new Actions(driver);
         this.executor = (JavascriptExecutor)driver;
+        this.fluentWait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(20)).pollingEvery(Duration.ofMillis(400)).ignoring(NoSuchElementException.class);
     }
 
     public void findAndConvertValueOfLossCostEstimateByOne(){
@@ -52,6 +66,7 @@ public class SetReservesUnderEventsPage extends BasePage {
     }
 
     public void findAndConvertValueOfLossCostEstimateBySubtractingOne(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(currentLossCostEstimate));
         String costEstimateString = driver.findElement(currentLossCostEstimate).getText();
         costEstimateString = costEstimateString.substring(0, costEstimateString.length() - 2).replaceAll("\\D+", "");
         costEstimateInteger = Integer.parseInt(costEstimateString);
@@ -68,8 +83,17 @@ public class SetReservesUnderEventsPage extends BasePage {
     }
 
     public void findAndConvertValueOfLossCostEstimateByAddingLargeAmount(){
-        //no such ele
-        String costEstimateString = driver.findElement(currentLossCostEstimate).getText();
+        boolean staleElement = true;
+        String costEstimateString = null;
+        while(staleElement){
+            try{
+                wait.until(ExpectedConditions.presenceOfElementLocated(currentLossCostEstimate));
+                costEstimateString = driver.findElement(currentLossCostEstimate).getText();
+                staleElement = false;
+            } catch(StaleElementReferenceException | NoSuchElementException e){
+                staleElement = true;
+            }
+        }
         costEstimateString = costEstimateString.substring(0, costEstimateString.length() - 2).replaceAll("\\D+", "");
         costEstimateInteger = Integer.parseInt(costEstimateString);
         sendNewLostCostPlusTwentyK();
@@ -85,8 +109,17 @@ public class SetReservesUnderEventsPage extends BasePage {
     }
 
     public void findAndConvertValueOfLossCostEstimateBySubtractingLargeAmount(){
-        //no such ele
-        String costEstimateString = driver.findElement(currentLossCostEstimate).getText();
+        boolean staleElement = true;
+        String costEstimateString = null;
+        while(staleElement){
+            try{
+                wait.until(ExpectedConditions.presenceOfElementLocated(currentLossCostEstimate));
+                costEstimateString = driver.findElement(currentLossCostEstimate).getText();
+                staleElement = false;
+            } catch(StaleElementReferenceException | NoSuchElementException e){
+                staleElement = true;
+            }
+        }
         costEstimateString = costEstimateString.substring(0, costEstimateString.length() - 2).replaceAll("\\D+", "");
         costEstimateInteger = Integer.parseInt(costEstimateString);
         sendNewLostCostMinusTwentyK();
@@ -124,21 +157,41 @@ public class SetReservesUnderEventsPage extends BasePage {
         return driver.findElement(hardWarningMessage).getText();
     }
 
-    public SummaryForFinancialsUnderEventsPage clickSaveButtonForSetReserves(){
+    public SummaryForFinancialsUnderEventsPage clickSaveButtonForSetReserves() throws InterruptedException {
         boolean staleElement = true;
         while(staleElement){
             try{
                 Thread.sleep(600);
                 wait.until(ExpectedConditions.presenceOfElementLocated(reserveSaveButton));
+                wait.until( ExpectedConditions.elementToBeClickable(reserveSaveButton));
                 WebElement element = driver.findElement(reserveSaveButton);
                 executor.executeScript("arguments[0].click();", element);
                 staleElement = false;
-            } catch(StaleElementReferenceException e){
+            } catch(StaleElementReferenceException | NoSuchElementException e){
                 staleElement = true;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        /*Thread.sleep(600);
+        boolean staleElement = true;
+        //return new SummaryForFinancialsUnderEventsPage(driver);
+        WebElement element = driver.findElement(reserveSaveButton);
+        while(staleElement){
+            try{
+                wait.until(ExpectedConditions.presenceOfElementLocated(reserveSaveButton));
+                wait.until( ExpectedConditions.elementToBeClickable(reserveSaveButton));
+                try{
+                    //action.moveToElement(element).build().perform();
+                    executor.executeScript("arguments[0].click();", element);
+                    staleElement = false;
+                }catch (WebDriverException ie){
+                    System.out.println(ie);
+                }
+            }catch(StaleElementReferenceException | NoSuchElementException e){
+                staleElement = true;
+            }
+        }*/
         return new SummaryForFinancialsUnderEventsPage(driver);
     }
 
@@ -148,8 +201,26 @@ public class SetReservesUnderEventsPage extends BasePage {
         while(staleElement){
             try{
                 //Thread.sleep(800);
-                wait.until(ExpectedConditions.presenceOfElementLocated(validationResultsAlert));
+                fluentWait.until(ExpectedConditions.presenceOfElementLocated(validationResultsAlert));
                 validationResultsText = driver.findElement(validationResultsAlert).getText();
+                staleElement = false;
+            } catch(StaleElementReferenceException | NoSuchElementException e){
+                staleElement = true;
+            } /*catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+        }
+        return validationResultsText;
+    }
+
+    public String getRollUpValidationResultsWaringPopUp(){
+        boolean staleElement = true;
+        String validationResultsText = null;
+        while(staleElement){
+            try{
+                //Thread.sleep(800);
+                fluentWait.until(ExpectedConditions.presenceOfElementLocated(rollUpValidationResultsWarning));
+                validationResultsText = driver.findElement(rollUpValidationResultsWarning).getText();
                 staleElement = false;
             } catch(StaleElementReferenceException e){
                 staleElement = true;
@@ -161,28 +232,81 @@ public class SetReservesUnderEventsPage extends BasePage {
     }
 
     public void clickClearButtonForValidationResultsAlert(){
-        WebElement clearButtonForAlertElement = driver.findElement(clearButtonForAlert);
+        /*WebElement clearButtonForAlertElement = driver.findElement(clearButtonForAlert);
         for(int i=0; i<=2;i++){
             try{
                 Thread.sleep(500);
                     wait.until(ExpectedConditions.presenceOfElementLocated(clearButtonForAlert));
                     ((JavascriptExecutor) driver).executeScript("arguments[0].click();", clearButtonForAlertElement);
-               /* } else {
+               *//* } else {
                     System.out.println("Unable to click on element");
-                }*/
-                /*driver.findElement(clearButtonForAlert).click();
-                break;*/
+                }*//*
+                *//*driver.findElement(clearButtonForAlert).click();
+                break;*//*
             }
             catch(Exception e){
                 System.out.println(e.getMessage());
             }
-        }
+        }*/
+        boolean staleElement = true;
+        WebElement clearButtonForAlertElement = driver.findElement(clearButtonForAlert);
+        while(staleElement){
+            try{
+                wait.until(ExpectedConditions.presenceOfElementLocated(clearButtonForAlert));
+                fluentWait.until(ExpectedConditions.elementToBeClickable(clearButtonForAlert));
+               try{
+                   executor.executeScript("arguments[0].click();", clearButtonForAlertElement);
+                   staleElement = false;
+               }catch (WebDriverException ie){
+                System.out.println(ie);
+               }
+               }catch(StaleElementReferenceException | NoSuchElementException e){
+                staleElement = true;
+            }
+            }
     }
 
     public void resetLossCostEstimateToThirtyK(){
         WebElement newLossCostEstimate  = driver.findElement(newLossCostEstimateField);
         action.click(newLossCostEstimate);
         action.sendKeys(newLossCostEstimate, "30000").build().perform();
+    }
+
+    public void setLossCostEstimateToFifteenK(){
+        fluentWait.until(ExpectedConditions.presenceOfElementLocated(newExpenseCostEstimateField));
+        WebElement newLossCostEstimate  = driver.findElement(newLossCostEstimateField);
+        action.click(newLossCostEstimate);
+        action.sendKeys(newLossCostEstimate, "15000").build().perform();
+    }
+
+    public void setRowOneLossCostEstimateToFifteenK(){
+        WebElement newLossCostEstimate  = driver.findElement(newFirstRowLossCostEstimateField);
+        action.click(newLossCostEstimate);
+        action.sendKeys(newLossCostEstimate, "15000").build().perform();
+    }
+
+    public void setRowTwoEstimateToSixK(){
+        WebElement newLossCostEstimate  = driver.findElement(newLossCostEstimateField);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(newLossCostEstimateField));
+        action.click(newLossCostEstimate);
+        action.sendKeys(newLossCostEstimate, "6000").build().perform();
+        //action.sendKeys(Keys.TAB, Keys.TAB, "6000").build().perform();
+    }
+
+    public void setRowFourEstimateToSixK() throws InterruptedException {
+        //Thread.sleep(600);
+        WebElement newLossCostEstimate = driver.findElement(newFourthRowLossCostEstimateField);
+        fluentWait.until(ExpectedConditions.elementToBeClickable(newFourthRowLossCostEstimateField));
+        //driver.findElement(newFourthRowLossCostEstimateField).click();
+        //driver.findElement(newFourthRowLossCostEstimateField).sendKeys("6000");
+        //action.click(newLossCostEstimate);
+        //action.sendKeys(newLossCostEstimate, "6000").build().perform();
+        action.click(newLossCostEstimate).build().perform();
+        driver.switchTo().activeElement().sendKeys(Keys.CLEAR, "6000");
+        //executor.executeScript("document.getElementByXpath('/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/table/tbody/tr/td/div/div[3]/div/table/tbody/tr[4]/td[6]/div').value='6000';");
+        //executor.executeScript("arguments[0].value='6000';", newLossCostEstimate);
+        /*action.click(newLossCostEstimate).build().perform();
+        action.sendKeys(Keys.BACK_SPACE).sendKeys("6000").build().perform();*/
     }
 
     public void findAndConvertValueOfExpenseCostEstimateByAddingOne(){
@@ -331,6 +455,83 @@ public class SetReservesUnderEventsPage extends BasePage {
             }
         }
         return storedValueForValidation;
+    }
+
+    public String getRollUpLossCostValue() {
+        boolean staleElement = true;
+        String storedLossCost = null;
+        while(staleElement){
+            try{
+                wait.until(ExpectedConditions.presenceOfElementLocated(rollUpTotalLossCost));
+                storedLossCost = driver.findElement(rollUpTotalLossCost).getText();
+                staleElement = false;
+            } catch(StaleElementReferenceException | NoSuchElementException e){
+                staleElement = true;
+            }
+        }
+        return storedLossCost;
+    }
+
+    public void convertAndSendRollUpLossCostPlusOne(String totalRollupValue) {
+        System.out.println(totalRollupValue);
+        totalRollupValue = totalRollupValue.substring(0, totalRollupValue.length() - 2).replaceAll("\\D+", "");
+        totalRollupInteger = Integer.parseInt(totalRollupValue);
+        totalRollupInteger = totalRollupInteger + 1;
+        String costEstimateString = Integer.toString(totalRollupInteger);
+        WebElement newLossCostEstimate  = driver.findElement(newLossCostEstimateField);
+        action.click(newLossCostEstimate).sendKeys(costEstimateString).perform();
+    }
+
+    public void convertAndSendRollUpLossCostMinusOne(String totalRollupValue) {
+        System.out.println(totalRollupValue);
+        totalRollupValue = totalRollupValue.substring(0, totalRollupValue.length() - 2).replaceAll("\\D+", "");
+        totalRollupInteger = Integer.parseInt(totalRollupValue);
+        totalRollupInteger = totalRollupInteger - 1;
+        String costEstimateString = Integer.toString(totalRollupInteger);
+        WebElement newLossCostEstimate  = driver.findElement(newLossCostEstimateField);
+        action.click(newLossCostEstimate).sendKeys(costEstimateString).perform();
+    }
+
+    public String getNewSumCostEstimate() {
+        boolean staleElement = true;
+        String rollUpSum = null;
+        while(staleElement){
+            try{
+                fluentWait.until(ExpectedConditions.visibilityOfElementLocated(reserveSumField)).isDisplayed();
+                rollUpSum = driver.findElement(reserveSumField).getText();
+                System.out.println(rollUpSum);
+                staleElement = false;
+            } catch(NoSuchElementException | StaleElementReferenceException e){
+                staleElement = true;
+            }
+        }
+        return rollUpSum;
+    }
+
+
+    public String getAndShortenNewRollUpSumCostEstimate() {
+        boolean staleElement = true;
+        String rollUpSum = null;
+        while(staleElement){
+            try{
+                fluentWait.until(ExpectedConditions.visibilityOfElementLocated(rollUpSumFieldForWarning)).isDisplayed();
+                //wait.until(ExpectedConditions.presenceOfElementLocated(rollUpSumFieldForWarning));
+                rollUpSum = driver.findElement(rollUpSumFieldForWarning).getText();
+                rollUpSum = rollUpSum.substring(0, rollUpSum.length() - 2).replaceAll("\\D+", "");
+                staleElement = false;
+            } catch(NoSuchElementException | StaleElementReferenceException e){
+                staleElement = true;
+            }
+        }
+        return rollUpSum;
+    }
+
+    public void clickToUpdateValueInSumField() {
+        WebElement ele = driver.findElement(currentLossCostEstimate);
+        wait.until(ExpectedConditions.presenceOfElementLocated(currentLossCostEstimate));
+        //driver.findElement(currentLossCostEstimate).click().sendKeys(Keys.TAB);
+        action.click(ele);
+        action.sendKeys(Keys.TAB).build().perform();
     }
 }
 

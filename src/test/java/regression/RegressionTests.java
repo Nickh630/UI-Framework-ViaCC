@@ -12,11 +12,11 @@ import static org.testng.Assert.assertTrue;
 public class RegressionTests extends BaseTest {
 
     @Test
-    @Description("Verifies ")
+    @Description("Verifies that a .pdf file is downloaded after print button is clicked ")
     @Severity(SeverityLevel.NORMAL)
-    @Story("ANCP-")
+    @Story("ANCP-19786")
     @Epic("Automated Testing-Deployments")
-    public void given_when_then() throws InterruptedException {
+    public void givenPrintButton_whenPrintButtonIsClicked_thenVerifyFileDownload() throws InterruptedException {
         HomePage homePage = loginPage.clickLoginButton();
         EventsPage eventsPage = homePage.clickEventsPage();
         eventsPage.clickActionsDropdown();
