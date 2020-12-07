@@ -25,16 +25,17 @@ public class PrintOptionsUnderEventsPage extends BasePage {
         this.action = new Actions(driver);
         this.executor = (JavascriptExecutor)driver;
         this.fluentWait = new FluentWait<WebDriver>(driver)
-                .withTimeout(Duration.ofSeconds(20)).pollingEvery(Duration.ofMillis(400)).ignoring(NoSuchElementException.class);
+                .withTimeout(Duration.ofSeconds(20)).pollingEvery(Duration.ofMillis(300)).ignoring(NoSuchElementException.class);
     }
 
     public void clickPrintButton() throws InterruptedException {
         boolean staleElement = true;
         while (staleElement) {
             try {
-                WebElement element = driver.findElement(printButton);
-                wait.until(ExpectedConditions.elementToBeClickable(printButton));
-                driver.findElement(printButton).click();
+                //WebElement element = driver.findElement(printButton);
+                WebElement printButtonEle = fluentWait.until(ExpectedConditions.presenceOfElementLocated(printButton));
+                printButtonEle.click();
+                //driver.findElement(printButton).click();
                 //executor.executeScript("arguments[0].click();", element);
                 staleElement = false;
             } catch (StaleElementReferenceException e) {

@@ -120,7 +120,7 @@ public class BaseTest {
         driver.get("https://test-pcm.lmig.com/palclaims/cc/ClaimCenter.do");
         driver.manage().window().maximize();
         //driver.manage().timeouts().pageLoadTimeout(11, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         System.out.println(driver.getTitle());
         loginPage = new LoginPage(driver);
         loginPage.setUsernameField("n9995191");
@@ -129,7 +129,7 @@ public class BaseTest {
 
     @AfterMethod
     public void recordFailure(ITestResult result) {
-        if (ITestResult.FAILURE == result.getStatus()) {
+        /*if (ITestResult.FAILURE == result.getStatus()) {
             var camera = (TakesScreenshot) driver;
             File screenshot = camera.getScreenshotAs(OutputType.FILE);
             try {
@@ -137,7 +137,7 @@ public class BaseTest {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         //driver.close();
         //driver.quit();
     }

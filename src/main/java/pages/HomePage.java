@@ -39,12 +39,12 @@ public class HomePage extends BasePage  {
     public void clickEventsDropdown() throws InterruptedException {
         boolean staleElement = true;
         //int xOffset = 148/2 - 5;
-        int xOffset = 108/2;
-        WebElement dropdown = driver.findElement(eventNumberArrow);
+        //int xOffset = 108/2;
+        //WebElement dropdown = driver.findElement(eventNumberArrow);
         while(staleElement){
             try{
                 //Thread.sleep(1100);
-                wait.until(ExpectedConditions.presenceOfElementLocated(eventNumberArrow));
+                WebElement dropdown = fluentWait.until(ExpectedConditions.elementToBeClickable(eventNumberArrow));
                 int width = dropdown.getSize().getWidth();
                 action.moveToElement(dropdown).moveByOffset((width/2) - 2, 0).click().perform();
                 //action.moveToElement(dropdown, xOffset, 0);
@@ -58,13 +58,14 @@ public class HomePage extends BasePage  {
     }
 
     public void setEventNumberSearch(String eventNumber){
+        //Check, No such Ele
         boolean staleElement = true;
-        WebElement element = driver.findElement(eventNumberSearch);
+        //WebElement element = driver.findElement(eventNumberSearch);
         while(staleElement){
             try{
                 //Thread.sleep(400);
-
-                fluentWait.until(ExpectedConditions.presenceOfElementLocated(eventNumberSearch));
+                WebElement element = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(eventNumberSearch));
+                //WebElement element = driver.findElement(eventNumberSearch);
                 executor.executeScript("arguments[0].click();", element);
                 driver.findElement(eventNumberSearch).sendKeys(eventNumber);
                 staleElement = false;

@@ -47,19 +47,15 @@ public class UpdateReserveTests extends BaseTest {
     @Story("ANCP-15689")
     @Epic("Automated Testing-Deployments")
     public void givenECEReserve_whenAddingAmount_thenVerifyNewPrice() throws InterruptedException {
+        //Here III
         HomePage homePage = loginPage.clickLoginButton();
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("591079001");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("591079001");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfExpenseCostEstimateByAddingOne();
         setReservesUnderEventsPage.clickToUpdateValueInSumField();
-        //Thread.sleep(2000);
         String sumAmount = setReservesUnderEventsPage.getNewSumCostEstimate();
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
         //assertEquals(summaryForFinancialsUnderEventsPage.getFinancialsSummaryAlertText(), "Pending Transactions", "Unexpected Message: Alert Incorrect");
@@ -93,6 +89,7 @@ public class UpdateReserveTests extends BaseTest {
         pageRefreshInstant();
         //String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
+        pageRefreshInstant();
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentExpenseCostEstimateFromFinancialsSummary(), sumAmount, "Updated Price is incorrect");
     }
 
@@ -102,6 +99,7 @@ public class UpdateReserveTests extends BaseTest {
     @Story("ANCP-14693")
     @Epic("Automated Testing-Deployments")
     public void givenReserve_whenReserveSetByAddingLargeAmount_thenVerifyReserve() throws InterruptedException {
+        //here II
         HomePage homePage = loginPage.clickLoginButton();
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("631066201");
@@ -139,14 +137,11 @@ public class UpdateReserveTests extends BaseTest {
     @Story("ANCP-15689")
     @Epic("Automated Testing-Deployments")
     public void givenReserve_whenReserveSetBySubtractingLargeAmount_thenVerifyReserve() throws InterruptedException {
+        //here III
         HomePage homePage = loginPage.clickLoginButton();
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("631066201");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("631066201");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateBySubtractingLargeAmount();
@@ -157,6 +152,8 @@ public class UpdateReserveTests extends BaseTest {
         //String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
+        eventsPage.clickExposuresOption();
+        eventsPage.clickFinancialsOption();
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentLossCostEstimateFromFinancialsSummary(),sumAmount, "Updated Price is incorrect");
         eventsPage.clickActionsDropdown();
         eventsPage.clickReservesOptionUnderActions();

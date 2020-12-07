@@ -17,11 +17,11 @@
             <class name="reserve.ReserveRegressionTests"/>
             <class name="reserve.UpdateMultipleReservesTests"/>
             <class name="exposures.ExposureWarningTests"/>
-            <class name="regression.RegressionTests"></class>
-            <class name="reserve.UpdateReserveTests"></class>
+            <class name="regression.RegressionTests"/>
+            <class name="reserve.UpdateReserveTests"/>
             <class name="reserve.ReserveWarningTests">
             </class>
-            <class name="reserve.UpdatePropertyReserveTests"></class>
+            <class name="reserve.UpdatePropertyReserveTests"/>
             <class name="reserve.ReserveHardWarningTests">
             </class>
             <class name="exposures.ExposureStatusTests"/>

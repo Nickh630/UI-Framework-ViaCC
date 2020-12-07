@@ -36,12 +36,12 @@ public class EventsPage extends BasePage {
         boolean staleElement = true;
         int xOffset = 148/2 - 5;
         //int xOffset = 108/2 - 5;
-        WebElement dropdown = driver.findElement(eventNumberArrow);
+        //WebElement dropdown = driver.findElement(eventNumberArrow);
         while(staleElement){
             try{
-                Thread.sleep(1100);
+                //Thread.sleep(1100);
                 //wait.until(ExpectedConditions.presenceOfElementLocated(eventNumberArrow));
-                fluentWait.until(ExpectedConditions.presenceOfElementLocated(eventNumberArrow));
+                WebElement dropdown = fluentWait.until(ExpectedConditions.presenceOfElementLocated(eventNumberArrow));
                 action.moveToElement(dropdown, xOffset, 0);
                 action.click().build().perform();
                 //executor.executeScript("arguments[0].click();", element);
@@ -54,16 +54,16 @@ public class EventsPage extends BasePage {
 
     public void setEventNumberSearch(String eventNumber){
         boolean staleElement = true;
-        WebElement element = driver.findElement(eventNumberSearch);
+        //WebElement element = driver.findElement(eventNumberSearch);
         while(staleElement){
             try{
-                Thread.sleep(400);
-
-                wait.until(ExpectedConditions.presenceOfElementLocated(eventNumberSearch));
+                //Thread.sleep(400);
+                WebElement element = fluentWait.until(ExpectedConditions.presenceOfElementLocated(eventNumberSearch));
                 executor.executeScript("arguments[0].click();", element);
-                driver.findElement(eventNumberSearch).sendKeys(eventNumber);
+                //driver.findElement(eventNumberSearch).sendKeys(eventNumber);
+                element.sendKeys(eventNumber);
                 staleElement = false;
-            } catch(StaleElementReferenceException | NoSuchElementException | InterruptedException e){
+            } catch(StaleElementReferenceException | NoSuchElementException e){
                 staleElement = true;
             }
         }
@@ -77,8 +77,8 @@ public class EventsPage extends BasePage {
         boolean staleElement = true;
         while(staleElement){
             try{
-                WebElement element = driver.findElement(exposures);
-                wait.until(ExpectedConditions.presenceOfElementLocated(exposures));
+                WebElement element = fluentWait.until(ExpectedConditions.presenceOfElementLocated(exposures));
+                //WebElement element = driver.findElement(exposures);
                 executor.executeScript("arguments[0].click();", element);
                 //action.click(newExpenseCostEstimate);
                 //action.sendKeys(element, eventNumber).build().perform();
@@ -97,13 +97,14 @@ public class EventsPage extends BasePage {
     }
 
     public void clickActionsDropdown(){
-        WebElement actionsDropdownElement = driver.findElement(actionsDropdown);
-        wait.until(ExpectedConditions.presenceOfElementLocated(actionsDropdown));
+        /*WebElement actionsDropdownElement = driver.findElement(actionsDropdown);
+        wait.until(ExpectedConditions.presenceOfElementLocated(actionsDropdown));*/
+        WebElement actionsDropdownElement = fluentWait.until(ExpectedConditions.presenceOfElementLocated(actionsDropdown));
         try {
             if (actionsDropdownElement.isDisplayed()) {
-                fluentWait.until(ExpectedConditions.elementToBeClickable(actionsDropdown));
-                executor.executeScript("arguments[0].click();", actionsDropdownElement);
-                Thread.sleep(2000);
+                WebElement actionsEle = fluentWait.until(ExpectedConditions.elementToBeClickable(actionsDropdown));
+                executor.executeScript("arguments[0].click();", actionsEle);
+                //Thread.sleep(2000);
             } else {
                 System.out.println("Unable to click on element");
             }
@@ -117,8 +118,9 @@ public class EventsPage extends BasePage {
     }
 
     public SetReservesUnderEventsPage clickReservesOptionUnderActions(){
-        wait.until(ExpectedConditions.presenceOfElementLocated(reserveOptionUnderActions));
-        driver.findElement(reserveOptionUnderActions).click();
+        WebElement reserveOptionEle = fluentWait.until(ExpectedConditions.presenceOfElementLocated(reserveOptionUnderActions));
+        reserveOptionEle.click();
+        //driver.findElement(reserveOptionUnderActions).click();
         return new SetReservesUnderEventsPage(driver);
     }
 

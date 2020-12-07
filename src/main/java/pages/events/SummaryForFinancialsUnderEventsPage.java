@@ -29,7 +29,7 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
         this.action = new Actions(driver);
         this.executor = (JavascriptExecutor)driver;
         this.fluentWait = new FluentWait<WebDriver>(driver)
-                .withTimeout(Duration.ofSeconds(20)).pollingEvery(Duration.ofMillis(400)).ignoring(NoSuchElementException.class);
+                .withTimeout(Duration.ofSeconds(30)).pollingEvery(Duration.ofMillis(250)).ignoring(NoSuchElementException.class);
     }
 
     public String getFinancialsSummaryAlertText(){
@@ -37,10 +37,12 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
         String StatusAlertText = null;
         while(staleElement){
             try{
-                wait.until(ExpectedConditions.presenceOfElementLocated(financialsSummaryStatusAlert));
-                StatusAlertText = driver.findElement(financialsSummaryStatusAlert).getText();
+                WebElement statusAlertEle = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(financialsSummaryStatusAlert));
+                StatusAlertText = statusAlertEle.getText();
+                /*wait.until(ExpectedConditions.presenceOfElementLocated(financialsSummaryStatusAlert));
+                StatusAlertText = driver.findElement(financialsSummaryStatusAlert).getText();*/
                 staleElement = false;
-            } catch(StaleElementReferenceException e){
+            } catch(StaleElementReferenceException | NoSuchElementException e){
                 staleElement = true;
             }
         }
@@ -54,13 +56,26 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
     }
 
     public String getCurrentLossCostEstimateFromFinancialsSummary(){
-        wait.until(ExpectedConditions.presenceOfElementLocated(updatedCurrentLossCostEstimate));
-        return driver.findElement(updatedCurrentLossCostEstimate).getText();
+        WebElement costEstimateEle = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(updatedCurrentLossCostEstimate));
+        //return driver.findElement(updatedCurrentLossCostEstimate).getText();
+        return costEstimateEle.getText();
     }
 
     public String getCurrentExpenseCostEstimateFromFinancialsSummary(){
-        wait.until(ExpectedConditions.presenceOfElementLocated(updatedCurrentExpenseCostEstimate));
-        return driver.findElement(updatedCurrentExpenseCostEstimate).getText();
+        boolean staleElement = true;
+        String statusAlertText = null;
+        while(staleElement){
+            try{
+                WebElement costEstimateEle = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(updatedCurrentExpenseCostEstimate));
+                //return driver.findElement(updatedCurrentExpenseCostEstimate).getText();
+                statusAlertText = costEstimateEle.getText();
+                staleElement = false;
+            } catch(StaleElementReferenceException e){
+                staleElement = true;
+            }
+        }
+        return statusAlertText;
+
     }
 
     public void pageRefreshForAcesProcessing() throws InterruptedException {
@@ -100,10 +115,11 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
         String pendingTransactionPriceValue = null;
         while(staleElement){
             try{
-                wait.until(ExpectedConditions.presenceOfElementLocated(pendingTransactionPrice));
-                pendingTransactionPriceValue = driver.findElement(pendingTransactionPrice).getText();
+                WebElement pendingTransField = fluentWait.until(ExpectedConditions.presenceOfElementLocated(pendingTransactionPrice));
+                pendingTransactionPriceValue = pendingTransField.getText();
+                //pendingTransactionPriceValue = driver.findElement(pendingTransactionPrice).getText();
                 staleElement = false;
-            } catch(StaleElementReferenceException e){
+            } catch(StaleElementReferenceException | NoSuchElementException e){
                 staleElement = true;
             }
         }
@@ -111,15 +127,15 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
     }
 
     public String getCurrentLossCostForMultiFromFinancialsSummary(){
-        wait.until(ExpectedConditions.presenceOfElementLocated(updatedCurrentLossCostEstimate));
-        String lossCostString = driver.findElement(updatedCurrentLossCostEstimate).getText();
+        WebElement updatedLCEEle = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(updatedCurrentLossCostEstimate));
+        String lossCostString = updatedLCEEle.getText();
         lossCostString = lossCostString.substring(0, lossCostString.length() - 2).replaceAll("\\D+", "");
         return lossCostString;
     }
 
     public String getCurrentExpenseCostForMultiFromFinancialsSummary(){
-        wait.until(ExpectedConditions.presenceOfElementLocated(updatedCurrentExpenseCostEstimate));
-        String expenseCostString = driver.findElement(updatedCurrentExpenseCostEstimate).getText();
+        WebElement updatedECEEle = fluentWait.until(ExpectedConditions.presenceOfElementLocated(updatedCurrentExpenseCostEstimate));
+        String expenseCostString = updatedECEEle.getText();
         expenseCostString = expenseCostString.substring(0, expenseCostString.length() - 2).replaceAll("\\D+", "");
         return expenseCostString;
     }
@@ -151,8 +167,9 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
     }
 
     public String getRollUpLCEFromFinancialsSummary() {
-        wait.until(ExpectedConditions.presenceOfElementLocated(rollUpNewTotalLCE));
-        String rollUpTotal = driver.findElement(rollUpNewTotalLCE).getText();
+        WebElement rollUpLCEEele = wait.until(ExpectedConditions.presenceOfElementLocated(rollUpNewTotalLCE));
+        //String rollUpTotal = driver.findElement(rollUpNewTotalLCE).getText();
+        String rollUpTotal = rollUpLCEEele.getText();
         return rollUpTotal;
     }
 
