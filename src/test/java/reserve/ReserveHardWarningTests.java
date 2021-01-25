@@ -21,14 +21,11 @@ public class ReserveHardWarningTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("791079001");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("791079001");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.changeCostEstimateForLossCostTo3K();
         setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        pageRefreshInstant();
         //assertEquals(setReservesUnderEventsPage.getValidationResultsWaringPopUp(), "Validation Results", "Validation Results alert not present");
         assertEquals(setReservesUnderEventsPage.getSoftWarningValidationResults(),
                 "New Cost Estimate must be greater than or equal to Net Paid to Date. Rule:TRNVRES05",
@@ -52,10 +49,6 @@ public class ReserveHardWarningTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("791079001");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-       /* EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("791079001");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.changeCostEstimateForExpenseCostTo3K();
@@ -114,10 +107,6 @@ public class ReserveHardWarningTests extends BaseTest {
         HomePage homePage = loginPage.clickLoginButton();homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("401079101");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-       /* EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("401079101");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.changeCostEstimateForExpenseCostTo3K();

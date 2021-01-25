@@ -24,10 +24,6 @@ public class UpdateMultipleReservesTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("391079001");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-       /* EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("391079001");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByOne();
@@ -37,8 +33,24 @@ public class UpdateMultipleReservesTests extends BaseTest {
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
-        eventsPage.clickExposuresOption();
-        eventsPage.clickFinancialsOption();
+        //eventsPage.clickExposuresOption();
+        //eventsPage.clickFinancialsOption();
+        try {
+            int counter = 0;
+            do {
+                eventsPage.clickExposuresOption();
+                eventsPage.clickFinancialsOption();
+                counter++;
+            }
+            while ((!summaryForFinancialsUnderEventsPage.getCurrentLossCostForMultiFromFinancialsSummary().equals(lossValueValidation) ||
+                    (!summaryForFinancialsUnderEventsPage.getCurrentExpenseCostForMultiFromFinancialsSummary().equals(expenseValueValidation))) && counter < 10);
+        }catch (Exception e) {
+        }
+        /*if(!summaryForFinancialsUnderEventsPage.getCurrentLossCostForMultiFromFinancialsSummary().equals(lossValueValidation) ||
+                (!summaryForFinancialsUnderEventsPage.getCurrentExpenseCostForMultiFromFinancialsSummary().equals(expenseValueValidation))) {
+            eventsPage.clickExposuresOption();
+            eventsPage.clickFinancialsOption();
+        }*/
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentLossCostForMultiFromFinancialsSummary(), lossValueValidation, "Updated Price is incorrect");
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentExpenseCostForMultiFromFinancialsSummary(), expenseValueValidation, "Updated Price is incorrect");
     }
@@ -53,10 +65,6 @@ public class UpdateMultipleReservesTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("201079101");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("201079101");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByOne();
@@ -66,8 +74,26 @@ public class UpdateMultipleReservesTests extends BaseTest {
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
-        eventsPage.clickExposuresOption();
+        /*eventsPage.clickExposuresOption();
         eventsPage.clickFinancialsOption();
+        if(!summaryForFinancialsUnderEventsPage.getCurrentLossCostForMultiFromFinancialsSummary().equals(lossValueValidation) ||
+                (!summaryForFinancialsUnderEventsPage.getCurrentExposureTwoLossCostForMultiFromFinancialsSummary().equals(exposureTwoValueValidation))) {
+            eventsPage.clickExposuresOption();
+            Thread.sleep(5000);
+            eventsPage.clickFinancialsOption();
+        }*/
+        try {
+            int counter = 0;
+            do {
+                eventsPage.clickExposuresOption();
+                Thread.sleep(1000);
+                eventsPage.clickFinancialsOption();
+                counter++;
+            }
+            while ((!summaryForFinancialsUnderEventsPage.getCurrentLossCostForMultiFromFinancialsSummary().equals(lossValueValidation) ||
+                    (!summaryForFinancialsUnderEventsPage.getCurrentExposureTwoLossCostForMultiFromFinancialsSummary().equals(exposureTwoValueValidation))) && counter < 10);
+        }catch (Exception e) {
+        }
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentLossCostForMultiFromFinancialsSummary(), lossValueValidation, "Updated Price is incorrect");
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentExposureTwoLossCostForMultiFromFinancialsSummary(), exposureTwoValueValidation, "Updated Price is incorrect");
     }

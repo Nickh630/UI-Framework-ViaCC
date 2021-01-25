@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ExposuresUnderEventsPage extends BasePage {
 
@@ -30,6 +32,13 @@ public class ExposuresUnderEventsPage extends BasePage {
     private final By exposureClassificationDropdown = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailDV:VehicleDamageDV:LMExposureOverallCommonInputSet:Exposure_LMClaimClassCode-inputEl");
     private final By exposureClassificationErrorMessage = By.id("WebMessageWorksheet:WebMessageWorksheetScreen:grpMsgs");
     private final By cancelButton = By.id("ExposureDetail:ExposureDetailScreen:Cancel-btnInnerEl");
+    private final By summaryOption = By.id("Claim:MenuLinks:Claim_ClaimSummaryGroup");
+    private final By noReferralReasonDropdown = By.id("ExposureDetail:ExposureDetailScreen:ExposureDetailDV:VehicleDamageDV:LMExposureStatusCommonInputSet:RejectReason1-inputEl");
+    private final By exposurePageTitle = By.id("ClaimExposures:ClaimExposuresScreen:ttlBar");
+    private final By exposureFilterButton = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[3]/td/div/div[2]/div/div/div[2]");
+    //private final By exposureFilterButton = By.id("gridcolumn-1149");
+    private final By topExposureNumber = By.id("ClaimExposures:ClaimExposuresScreen:ExposuresLV:0:Order");
+    private final By warningClearButton = By.id("WebMessageWorksheet:WebMessageWorksheetScreen:WebMessageWorksheet_ClearButton-btnInnerEl");
 
     public ExposuresUnderEventsPage(WebDriver driver){
         this.driver = driver;
@@ -37,11 +46,12 @@ public class ExposuresUnderEventsPage extends BasePage {
         this.action = new Actions(driver);
         this.executor = (JavascriptExecutor)driver;
         this.fluentWait = new FluentWait<WebDriver>(driver)
-                .withTimeout(Duration.ofSeconds(20)).pollingEvery(Duration.ofMillis(400)).ignoring(NoSuchElementException.class);
+                .withTimeout(Duration.ofSeconds(20)).pollingEvery(Duration.ofMillis(250)).ignoring(NoSuchElementException.class);
     }
 
     public void clickCollisionExposureNoOne(){
-        driver.findElement(collisionNoOne).click();
+        WebElement collisionNoOneEle = fluentWait.until(ExpectedConditions.elementToBeClickable(collisionNoOne));
+        collisionNoOneEle.click();
     }
 
     public SetReservesUnderEventsPage clickEditReserveButton(){
@@ -50,50 +60,54 @@ public class ExposuresUnderEventsPage extends BasePage {
     }
 
    public int presenceOfEditExposureButton() {
+       driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
        int element = driver.findElements(editReserve).size();
        return element;
    }
     public void clickEditButton(){
-        driver.findElement(editButton).click();
+        WebElement editButtonEle = fluentWait.until(ExpectedConditions.elementToBeClickable(editButton));
+        editButtonEle.click();
     }
 
     public void clickCloseExposureDropdown(){
         try {
-            fluentWait.until(ExpectedConditions.presenceOfElementLocated((closeExposureDropdown)));
-            driver.findElement(closeExposureDropdown).click();
+            WebElement dropdownEle = fluentWait.until(ExpectedConditions.elementToBeClickable((closeExposureDropdown)));
+            dropdownEle.click();
         }
         catch (StaleElementReferenceException e){
-            fluentWait.until(ExpectedConditions.elementToBeClickable((closeExposureDropdown)));
-            driver.findElement(closeExposureDropdown).click();
+            WebElement dropdownEle = fluentWait.until(ExpectedConditions.elementToBeClickable((closeExposureDropdown)));
+            dropdownEle.click();
         }
     }
 
     public void clickClosePropertyExposureDropdown(){
         try {
-            wait.until(ExpectedConditions.presenceOfElementLocated((closePropertyExposureDropdown)));
-            driver.findElement(closePropertyExposureDropdown).click();
+            WebElement dropdownEle = fluentWait.until(ExpectedConditions.elementToBeClickable((closePropertyExposureDropdown)));
+            dropdownEle.click();
         }
         catch (StaleElementReferenceException e){
-            wait.until(ExpectedConditions.presenceOfElementLocated((closePropertyExposureDropdown)));
-            driver.findElement(closePropertyExposureDropdown).click();
+            WebElement dropdownEle = fluentWait.until(ExpectedConditions.elementToBeClickable((closePropertyExposureDropdown)));
+            dropdownEle.click();
         }
     }
 
     public void selectYesForClosureValue(){
-        driver.findElement(closeExposureDropdown).sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
+        WebElement dropdownEle = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(closeExposureDropdown));
+        dropdownEle.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
     }
 
     public void selectYesForPropertyClosureValue(){
-        driver.findElement(closePropertyExposureDropdown).sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
+        WebElement dropdownEle = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(closePropertyExposureDropdown));
+        dropdownEle.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
     }
 
     public void selectErrorFromOutcomeDropdown(){
-        WebElement ele = driver.findElement(outcomeDropdown);
+        WebElement ele = fluentWait.until(ExpectedConditions.elementToBeClickable(outcomeDropdown));
         action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ENTER ).perform();
     }
 
     public void selectErrorFromPropertyOutcomeDropdown(){
-        WebElement ele = driver.findElement(outcomePropertyDropdown);
+        WebElement ele = fluentWait.until(ExpectedConditions.elementToBeClickable(outcomePropertyDropdown));
         action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ENTER ).perform();
     }
 
@@ -103,12 +117,12 @@ public class ExposuresUnderEventsPage extends BasePage {
     }
 
     public void selectDuplicateFromSpecificReasonDropdown(){
-        WebElement ele = driver.findElement(specificReasonDropdown);
+        WebElement ele = fluentWait.until(ExpectedConditions.elementToBeClickable(specificReasonDropdown));
         action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ENTER ).perform();
     }
 
     public void selectDuplicateFromPropertySpecificReasonDropdown(){
-        WebElement ele = driver.findElement(specificReasonDropdownForProperty);
+        WebElement ele = fluentWait.until(ExpectedConditions.elementToBeClickable(specificReasonDropdownForProperty));
         action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ENTER ).perform();
     }
 
@@ -116,86 +130,82 @@ public class ExposuresUnderEventsPage extends BasePage {
         boolean staleElement = true;
         while(staleElement){
             try{
-                //Thread.sleep(800);
-                WebElement element = driver.findElement(updateButton);
-                wait.until(ExpectedConditions.presenceOfElementLocated(updateButton));
+                WebElement element = fluentWait.until(ExpectedConditions.elementToBeClickable(updateButton));
                 executor.executeScript("arguments[0].click();", element);
                 staleElement = false;
             } catch(StaleElementReferenceException e){
                 staleElement = true;
-            } /*catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
+            }
         }
     }
 
     public void clickReopenExposureButton(){
-        driver.findElement(reopenExposureButton).click();
+        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        WebElement reopenButtonEle = fluentWait.until(ExpectedConditions.elementToBeClickable(reopenExposureButton));
+        reopenButtonEle.click();
     }
 
     public void clickClearButton(){
         boolean staleElement = true;
         while(staleElement){
             try{
-                WebElement element = driver.findElement(clearWarningButton);
-                wait.until(ExpectedConditions.presenceOfElementLocated(clearWarningButton));
+                WebElement element = wait.until(ExpectedConditions.elementToBeClickable(clearWarningButton));
                 executor.executeScript("arguments[0].click();", element);
                 staleElement = false;
-            } catch(StaleElementReferenceException e){
-                staleElement = true;
-            } catch (NoSuchElementException e) {
+            } catch(StaleElementReferenceException | NoSuchElementException e){
                 staleElement = true;
             }
         }
     }
 
     public void clickSecondReopenExposureButton() {
-        driver.findElement(secondReopenExposureButton).click();
+        WebElement secondReopenButtonEle = fluentWait.until(ExpectedConditions.elementToBeClickable(secondReopenExposureButton));
+        secondReopenButtonEle.click();
     }
 
     public void clickUpToExposuresLink() {
         boolean staleElement = true;
         while(staleElement){
             try{
-                Thread.sleep(800);
-                WebElement element = driver.findElement(upToExposuresLink);
-                wait.until(ExpectedConditions.presenceOfElementLocated(upToExposuresLink));
-                executor.executeScript("arguments[0].click();", element);
+                WebElement element = fluentWait.until(ExpectedConditions.elementToBeClickable(upToExposuresLink));
+                //executor.executeScript("arguments[0].click();", element);
+                element.click();
                 staleElement = false;
             } catch(StaleElementReferenceException | NoSuchElementException e){
                 staleElement = true;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }
 
     public String getExposureStatus(){
-      return driver.findElement(exposureStatus).getText();
+        WebElement exposureStatusEle = fluentWait.until(ExpectedConditions.presenceOfElementLocated(exposureStatus));
+        return exposureStatusEle.getText();
     }
 
     public void selectHomeOfficeFromExposureClassificationDropdown(){
         boolean timeoutElement = true;
         while(timeoutElement){
             try{
-                Thread.sleep(300);
+                /*Thread.sleep(300);
                 wait.until(ExpectedConditions.presenceOfElementLocated(exposureClassificationDropdown));
-                WebElement ele = driver.findElement(exposureClassificationDropdown);
+                WebElement ele = driver.findElement(exposureClassificationDropdown);*/
+                WebElement ele = fluentWait.until(ExpectedConditions.elementToBeClickable(exposureClassificationDropdown));
                 action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ENTER ).perform();
                 timeoutElement = false;
-            } catch(TimeoutException | InterruptedException e){
+            } catch(StaleElementReferenceException e){
                 timeoutElement = true;
             }
         }
     }
+
 
     public String getErrorExposureClassificationMessage() {
         boolean staleElement = true;
         String validationResultsErrorText = null;
         while(staleElement){
             try{
-                wait.until(ExpectedConditions.presenceOfElementLocated(exposureClassificationErrorMessage));
-                validationResultsErrorText = driver.findElement(exposureClassificationErrorMessage).getText();
+                WebElement errorMessageEle = fluentWait.until(ExpectedConditions.presenceOfElementLocated(exposureClassificationErrorMessage));
+                validationResultsErrorText = errorMessageEle.getText();
                 staleElement = false;
             } catch(StaleElementReferenceException | TimeoutException e){
                 staleElement = true;
@@ -205,6 +215,52 @@ public class ExposuresUnderEventsPage extends BasePage {
     }
 
     public void clickCancel() {
-       driver.findElement(cancelButton).click();
+        WebElement cancelButtonEle = fluentWait.until(ExpectedConditions.elementToBeClickable(cancelButton));
+        cancelButtonEle.click();
+    }
+
+    public SummaryForFinancialsUnderEventsPage clickSummaryOption(){
+        boolean staleElement = true;
+        /*try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        while(staleElement){
+            try{
+                WebElement element = fluentWait.until(ExpectedConditions.elementToBeClickable(summaryOption));
+                element.click();
+                staleElement = false;
+            } catch(StaleElementReferenceException | ElementClickInterceptedException e){
+                staleElement = true;
+            }
+        }
+        return new SummaryForFinancialsUnderEventsPage(driver);
+    }
+
+    public void selectNoReferralReasonDropdown() {
+        WebElement ele = fluentWait.until(ExpectedConditions.elementToBeClickable(noReferralReasonDropdown));
+        action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ENTER ).perform();
+    }
+
+    public Object getExposurePageTitle() {
+        WebElement pageTitle = fluentWait.until(ExpectedConditions.presenceOfElementLocated(exposurePageTitle));
+        return pageTitle.getText();
+    }
+
+    public void clickExposureFilter() {
+        WebElement element = fluentWait.until(ExpectedConditions.elementToBeClickable(exposureFilterButton));
+        element.click();
+    }
+
+    public int getExposureNumber() {
+        WebElement exposureNumEle = fluentWait.until(ExpectedConditions.presenceOfElementLocated(topExposureNumber));
+        String exposureString = exposureNumEle.getText();
+        return Integer.parseInt(exposureString);
+    }
+
+    public void clickClearOnExposureUpdate() {
+        WebElement element = fluentWait.until(ExpectedConditions.elementToBeClickable(warningClearButton));
+        element.click();
     }
 }

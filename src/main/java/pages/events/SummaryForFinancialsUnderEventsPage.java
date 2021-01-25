@@ -8,20 +8,24 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class SummaryForFinancialsUnderEventsPage extends BasePage {
 
+    //private final By financialsSummaryStatusAlert = By.id("ClaimFinancialsSummary:ClaimFinancialsSummaryScreen:3");
     private final By financialsSummaryStatusAlert = By.id("ClaimFinancialsSummary:ClaimFinancialsSummaryScreen:3");
     private final By updatedCurrentLossCostEstimate = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/div[2]/div/table/tbody/tr[1]/td[5]/div");
     private final By pendingTransactionPrice = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[7]/td/div/table/tbody/tr[2]/td/div/div[2]/div/table/tbody/tr/td[3]/div");
     private final By pendingSecondTransactionPrice = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[7]/td/div/table/tbody/tr[2]/td/div/div[2]/div/table/tbody/tr[2]/td[3]/div");
     //private final By pendingTransactionPrice = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[7]/td/div/table/tbody/tr[2]/td/div/div[2]/div/table/tbody/tr[2]/td[3]/div");
     private final By updatedCurrentExpenseCostEstimate = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/div[2]/div/table/tbody/tr[2]/td[5]/div");
+    //private final By updatedCurrentExpenseCostEstimate = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/div[2]/div/table/tbody/tr[2]/td[5]/div"
     private final By updatedExposureTwoCurrentExpenseCostEstimate = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[4]/td/div/table/tbody/tr[2]/td/div/div[2]/div/table/tbody/tr[3]/td[5]/div");
     private final By financialSummaryTitle = By.id("ClaimFinancialsSummary:ClaimFinancialsSummaryScreen:ttlBar");
     private final By rollUpPendingTransactionField = By.id("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[8]/td/div/table/tbody/tr[2]/td/div/div[2]/div/table/tbody/tr/td[3]/div");
     private final By rollUpNewTotalLCE = By.xpath("/html/body/div[1]/div[4]/table/tbody/tr/td/div/table/tbody/tr[6]/td/div/table/tbody/tr[2]/td/div/div[2]/div/table/tbody/tr/td[4]/div");
     private final By financialsSummaryRollUpStatusAlert = By.id("ClaimFinancialsSummary:ClaimFinancialsSummaryScreen:4");
+    private final By summaryOption = By.id("Claim:MenuLinks:Claim_ClaimSummaryGroup");
 
     public SummaryForFinancialsUnderEventsPage(WebDriver driver){
         this.driver = driver;
@@ -79,10 +83,11 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
     }
 
     public void pageRefreshForAcesProcessing() throws InterruptedException {
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         try {
             int counter = 0;
             do {
-                Thread.sleep(4000);
+                Thread.sleep(3500);
                 driver.navigate().refresh();
                 Thread.sleep(100);
                 counter++;
@@ -92,6 +97,13 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
         catch(Exception e){
             System.out.println(e.getMessage());
         }
+    }
+
+    public int presenceOfStatusAlertForAcesProcessing() throws InterruptedException {
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        int ele = driver.findElements(financialsSummaryStatusAlert).size();
+        Thread.sleep(1200);
+        return ele;
     }
 
     public void pageRefreshOnRollUpForAcesProcessing() throws InterruptedException {
@@ -104,6 +116,22 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
                 counter++;
             }
             while (driver.findElements(financialsSummaryRollUpStatusAlert).size() > 0 && counter < 10);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void pageRefreshWaitOnRollUpForAcesProcessing() throws InterruptedException {
+        try {
+            int counter = 0;
+            do {
+                Thread.sleep(100);
+                driver.navigate().refresh();
+                Thread.sleep(800);
+                counter++;
+            }
+            while (driver.findElements(financialsSummaryRollUpStatusAlert).size() < 1 && counter < 4);
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -141,7 +169,8 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
     }
 
     public String getFinancialsSummaryTitleHeader() {
-       return driver.findElement(financialSummaryTitle).getText();
+        WebElement titleEle = fluentWait.until(ExpectedConditions.presenceOfElementLocated(financialSummaryTitle));
+       return titleEle.getText();
     }
 
     public String getCurrentExposureTwoLossCostForMultiFromFinancialsSummary() {
@@ -167,12 +196,23 @@ public class SummaryForFinancialsUnderEventsPage extends BasePage {
     }
 
     public String getRollUpLCEFromFinancialsSummary() {
-        WebElement rollUpLCEEele = wait.until(ExpectedConditions.presenceOfElementLocated(rollUpNewTotalLCE));
+        WebElement rollUpLCEEle = fluentWait.until(ExpectedConditions.presenceOfElementLocated(rollUpNewTotalLCE));
         //String rollUpTotal = driver.findElement(rollUpNewTotalLCE).getText();
-        String rollUpTotal = rollUpLCEEele.getText();
+        String rollUpTotal = rollUpLCEEle.getText();
         return rollUpTotal;
     }
 
-    /*public String getRollUpLCEFromFinancialsSummary() {
-    }*/
+    public SummaryForFinancialsUnderEventsPage clickSummaryOption() {
+        boolean staleElement = true;
+        while(staleElement){
+            try{
+                WebElement element = fluentWait.until(ExpectedConditions.elementToBeClickable(summaryOption));
+                element.click();
+                staleElement = false;
+            } catch(StaleElementReferenceException | ElementClickInterceptedException e){
+                staleElement = true;
+            }
+        }
+        return new SummaryForFinancialsUnderEventsPage(driver);
+    }
 }

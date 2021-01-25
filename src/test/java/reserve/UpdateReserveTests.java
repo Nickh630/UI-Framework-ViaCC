@@ -22,22 +22,30 @@ public class UpdateReserveTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("631066201");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("631066201");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByOne();
         //pageRefreshInstant();
         setReservesUnderEventsPage.clickToUpdateValueInSumField();
-        //Thread.sleep(2000);
         String sumAmount = setReservesUnderEventsPage.getNewSumCostEstimate();
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
-        //assertEquals(summaryForFinancialsUnderEventsPage.getFinancialsSummaryAlertText(), "Pending Transactions", "Unexpected Message: Alert Incorrect");
-        //String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
+        /*while(summaryForFinancialsUnderEventsPage.presenceOfStatusAlertForAcesProcessing()>0){
+            eventsPage.clickExposuresOption();
+            eventsPage.clickFinancialsOption();
+        }
+        pageRefreshInstant();*/
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
+        try {
+            int counter = 0;
+            do {
+                eventsPage.clickExposuresOption();
+                eventsPage.clickFinancialsOption();
+                counter++;
+            }
+            while ((!summaryForFinancialsUnderEventsPage.getCurrentLossCostEstimateFromFinancialsSummary().equals(sumAmount)) && counter < 10);
+        }catch (Exception e) {
+        }
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentLossCostEstimateFromFinancialsSummary(), sumAmount, "Updated Price is incorrect");
     }
 
@@ -58,10 +66,24 @@ public class UpdateReserveTests extends BaseTest {
         setReservesUnderEventsPage.clickToUpdateValueInSumField();
         String sumAmount = setReservesUnderEventsPage.getNewSumCostEstimate();
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
-        //assertEquals(summaryForFinancialsUnderEventsPage.getFinancialsSummaryAlertText(), "Pending Transactions", "Unexpected Message: Alert Incorrect");
-        //String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
+        /*while(summaryForFinancialsUnderEventsPage.presenceOfStatusAlertForAcesProcessing()>0){
+            eventsPage.clickExposuresOption();
+            eventsPage.clickFinancialsOption();
+        }*/
         pageRefreshInstant();
+        try {
+            int counter = 0;
+            do {
+                eventsPage.clickExposuresOption();
+                eventsPage.clickFinancialsOption();
+                counter++;
+            }
+            while ((!summaryForFinancialsUnderEventsPage.getCurrentExpenseCostEstimateFromFinancialsSummary().equals(sumAmount)) && counter < 10);
+        }catch (Exception e) {
+        }
+        /*summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
+        pageRefreshInstant();*/
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentExpenseCostEstimateFromFinancialsSummary(), sumAmount, "Updated Price is incorrect");
     }
 
@@ -75,21 +97,34 @@ public class UpdateReserveTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("291079001");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("291079001");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfExpenseCostEstimateBySubtractingOne();
         setReservesUnderEventsPage.clickToUpdateValueInSumField();
-        //Thread.sleep(2000);
         String sumAmount = setReservesUnderEventsPage.getNewSumCostEstimate();
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
+        try {
+            int counter = 0;
+            do {
+                eventsPage.clickExposuresOption();
+                eventsPage.clickFinancialsOption();
+                counter++;
+            }
+            while ((!summaryForFinancialsUnderEventsPage.getCurrentExpenseCostEstimateFromFinancialsSummary().equals(sumAmount)) && counter < 10);
+        }catch (Exception e) {
+        }
+        /* do {
+            eventsPage.clickExposuresOption();
+            eventsPage.clickFinancialsOption();
+        }while(summaryForFinancialsUnderEventsPage.presenceOfStatusAlertForAcesProcessing()>0);*/
+        /*pageRefreshInstant();
         //String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
+        eventsPage.clickExposuresOption();
+        eventsPage.clickFinancialsOption();*/
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentExpenseCostEstimateFromFinancialsSummary(), sumAmount, "Updated Price is incorrect");
     }
 
@@ -104,10 +139,6 @@ public class UpdateReserveTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("631066201");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("631066201");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByAddingLargeAmount();
@@ -118,6 +149,11 @@ public class UpdateReserveTests extends BaseTest {
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
         //assertEquals(summaryForFinancialsUnderEventsPage.getFinancialsSummaryAlertText(), "Pending Transactions", "Unexpected Message: Alert Incorrect");
         //String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
+        /*while(summaryForFinancialsUnderEventsPage.presenceOfStatusAlertForAcesProcessing()>0){
+            eventsPage.clickExposuresOption();
+            eventsPage.clickFinancialsOption();
+        }
+        pageRefreshInstant();*/
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentLossCostEstimateFromFinancialsSummary(),sumAmount, "Updated Price is incorrect");
@@ -125,8 +161,8 @@ public class UpdateReserveTests extends BaseTest {
         eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.resetLossCostEstimateToThirtyK();
         setReservesUnderEventsPage.clickSaveButtonForSetReserves();
-        pageRefreshInstant();
-        setReservesUnderEventsPage.clickClearButtonForValidationResultsAlert();
+        //pageRefreshInstant();
+        //setReservesUnderEventsPage.clickClearButtonForValidationResultsAlert();
         summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
     }
@@ -150,6 +186,11 @@ public class UpdateReserveTests extends BaseTest {
         setReservesUnderEventsPage.clickClearButtonForValidationResultsAlert();
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
         //String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
+        /*while(summaryForFinancialsUnderEventsPage.presenceOfStatusAlertForAcesProcessing()>0){
+            eventsPage.clickExposuresOption();
+            eventsPage.clickFinancialsOption();
+        }
+        pageRefreshInstant();*/
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
         eventsPage.clickExposuresOption();
@@ -165,7 +206,7 @@ public class UpdateReserveTests extends BaseTest {
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
     }
 
-    //@Test
+    @Test
     @Description("Verifies the total cost exposure roll up matches the updated sum when adding for Auto event")
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-19446")
@@ -175,10 +216,6 @@ public class UpdateReserveTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("221099301");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("221099301");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         String totalRollupValue = setReservesUnderEventsPage.getRollUpLossCostValue();
@@ -190,12 +227,29 @@ public class UpdateReserveTests extends BaseTest {
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
         summaryForFinancialsUnderEventsPage.pageRefreshOnRollUpForAcesProcessing();
         pageRefreshInstant();
+        try {
+            int counter = 0;
+            do {
+                eventsPage.clickExposuresOption();
+                eventsPage.clickFinancialsOption();
+                counter++;
+            }
+            while ((!summaryForFinancialsUnderEventsPage.getRollUpLCEFromFinancialsSummary().equals(sumAmount)) && counter < 10);
+        }catch (Exception e) {
+        }
+        /*while(summaryForFinancialsUnderEventsPage.presenceOfStatusAlertForAcesProcessing()>0){
+            eventsPage.clickExposuresOption();
+            eventsPage.clickFinancialsOption();
+        }*/
+        //pageRefreshInstant();
+        /*summaryForFinancialsUnderEventsPage.pageRefreshOnRollUpForAcesProcessing();
+        pageRefreshInstant();
         eventsPage.clickExposuresOption();
-        eventsPage.clickFinancialsOption();
+        eventsPage.clickFinancialsOption();*/
         assertEquals(summaryForFinancialsUnderEventsPage.getRollUpLCEFromFinancialsSummary(), sumAmount, "Updated Price is incorrect");
     }
 
-    //@Test
+    @Test
     @Description("Verifies the total cost exposure roll up matches the updated sum when subtracting for Auto event")
     @Severity(SeverityLevel.NORMAL)
     @Story("ANCP-20200")
@@ -205,10 +259,6 @@ public class UpdateReserveTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("221099301");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("221099301");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         String totalRollupValue = setReservesUnderEventsPage.getRollUpLossCostValue();
@@ -220,8 +270,25 @@ public class UpdateReserveTests extends BaseTest {
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
         summaryForFinancialsUnderEventsPage.pageRefreshOnRollUpForAcesProcessing();
         pageRefreshInstant();
+        try {
+            int counter = 0;
+            do {
+                eventsPage.clickExposuresOption();
+                eventsPage.clickFinancialsOption();
+                counter++;
+            }
+            while ((!summaryForFinancialsUnderEventsPage.getRollUpLCEFromFinancialsSummary().equals(sumAmount)) && counter < 10);
+        }catch (Exception e) {
+        }
+        /*while(summaryForFinancialsUnderEventsPage.presenceOfStatusAlertForAcesProcessing()>0){
+            eventsPage.clickExposuresOption();
+            eventsPage.clickFinancialsOption();
+        }
+        pageRefreshInstant();*/
+        /*summaryForFinancialsUnderEventsPage.pageRefreshOnRollUpForAcesProcessing();
+        pageRefreshInstant();
         eventsPage.clickExposuresOption();
-        eventsPage.clickFinancialsOption();
+        eventsPage.clickFinancialsOption();*/
         assertEquals(summaryForFinancialsUnderEventsPage.getRollUpLCEFromFinancialsSummary(), sumAmount, "Updated Price is incorrect");
     }
 }

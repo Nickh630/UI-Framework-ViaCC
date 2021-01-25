@@ -36,7 +36,7 @@ public class HomePage extends BasePage  {
         driver.findElement(eventsTab).click();
     }
 
-    public void clickEventsDropdown() throws InterruptedException {
+    public void clickEventsDropdown(){
         boolean staleElement = true;
         //int xOffset = 148/2 - 5;
         //int xOffset = 108/2;
@@ -64,10 +64,10 @@ public class HomePage extends BasePage  {
         while(staleElement){
             try{
                 //Thread.sleep(400);
-                WebElement element = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(eventNumberSearch));
+                WebElement element = fluentWait.until(ExpectedConditions.elementToBeClickable(eventNumberSearch));
                 //WebElement element = driver.findElement(eventNumberSearch);
                 executor.executeScript("arguments[0].click();", element);
-                driver.findElement(eventNumberSearch).sendKeys(eventNumber);
+                element.sendKeys(eventNumber);
                 staleElement = false;
             } catch(StaleElementReferenceException | NoSuchElementException e){
                 staleElement = true;
@@ -75,10 +75,9 @@ public class HomePage extends BasePage  {
         }
     }
 
-    public EventsPage clickEventSearchIcon() throws InterruptedException {
-        fluentWait.until(ExpectedConditions.elementToBeClickable(searchIcon));
-        //Thread.sleep(2000);
-        driver.findElement(searchIcon).click();
+    public EventsPage clickEventSearchIcon(){
+        WebElement searchIconEle = fluentWait.until(ExpectedConditions.elementToBeClickable(searchIcon));
+        searchIconEle.click();
         return new EventsPage(driver);
     }
 

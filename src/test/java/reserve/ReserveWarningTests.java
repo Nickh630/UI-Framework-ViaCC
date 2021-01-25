@@ -96,10 +96,6 @@ public class ReserveWarningTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("91079001");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-       /* EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("91079001");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.setLossCostEstimateToFifteenK();

@@ -18,19 +18,15 @@ public class UpdatePropertyReserveTests extends BaseTest {
     @Story("ANCP-17725")
     @Epic("Automated Testing-Deployments")
     public void givenPropertyEventNumber_whenReserveIsIncreased_thenVerifyReserve() throws InterruptedException {
+        //here
         HomePage homePage = loginPage.clickLoginButton();
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("451066201");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("451066201");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateByOne();
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
-        assertEquals(summaryForFinancialsUnderEventsPage.getFinancialsSummaryAlertText(), "Pending Transactions", "Unexpected Message: Alert Incorrect");
         String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
@@ -43,20 +39,15 @@ public class UpdatePropertyReserveTests extends BaseTest {
     @Story("ANCP-17725")
     @Epic("Automated Testing-Deployments")
     public void givenPropertyEventNumber_whenReserveIsDecreased_thenVerifyReserve() throws InterruptedException {
+        //here
         HomePage homePage = loginPage.clickLoginButton();
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("451066201");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("451066201");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfLossCostEstimateBySubtractingOne();
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
-        //Thread.sleep(2000);
-        assertEquals(summaryForFinancialsUnderEventsPage.getFinancialsSummaryAlertText(), "Pending Transactions", "Unexpected Message: Alert Incorrect");
         String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
@@ -73,10 +64,6 @@ public class UpdatePropertyReserveTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("451066201");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("451066201");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfExpenseCostEstimateByAddingOne();
@@ -85,6 +72,8 @@ public class UpdatePropertyReserveTests extends BaseTest {
         String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
+        eventsPage.clickExposuresOption();
+        eventsPage.clickFinancialsOption();
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentExpenseCostEstimateFromFinancialsSummary(), pendingAmount, "Updated Price is incorrect");
     }
 
@@ -98,17 +87,16 @@ public class UpdatePropertyReserveTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("451066201");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-       /* EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("451066201");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         setReservesUnderEventsPage.findAndConvertValueOfExpenseCostEstimateBySubtractingOne();
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        //here
         String pendingAmount = summaryForFinancialsUnderEventsPage.getPendingTransactionAmount();
         summaryForFinancialsUnderEventsPage.pageRefreshForAcesProcessing();
         pageRefreshInstant();
+        eventsPage.clickExposuresOption();
+        eventsPage.clickFinancialsOption();
         assertEquals(summaryForFinancialsUnderEventsPage.getCurrentExpenseCostEstimateFromFinancialsSummary(), pendingAmount, "Updated Price is incorrect");
     }
 
@@ -118,14 +106,11 @@ public class UpdatePropertyReserveTests extends BaseTest {
     @Story("ANCP-19447")
     @Epic("Automated Testing-Deployments")
     public void givenPropertyEventNumberWithExposuresThatCombine_whenOneExposureUpdatesByAdding_thenRollUpMatchesSum() throws InterruptedException {
+        //here II
         HomePage homePage = loginPage.clickLoginButton();
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("301079101");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("301079101");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         String totalRollupValue = setReservesUnderEventsPage.getRollUpLossCostValue();
@@ -135,6 +120,7 @@ public class UpdatePropertyReserveTests extends BaseTest {
         String sumAmount = setReservesUnderEventsPage.getNewSumCostEstimate();
         setReservesUnderEventsPage.clickClearButtonForValidationResultsAlert();
         SummaryForFinancialsUnderEventsPage summaryForFinancialsUnderEventsPage = setReservesUnderEventsPage.clickSaveButtonForSetReserves();
+        summaryForFinancialsUnderEventsPage.pageRefreshWaitOnRollUpForAcesProcessing();
         summaryForFinancialsUnderEventsPage.pageRefreshOnRollUpForAcesProcessing();
         pageRefreshInstant();
         eventsPage.clickExposuresOption();
@@ -152,10 +138,6 @@ public class UpdatePropertyReserveTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("301079101");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("301079101");
-        eventsPage.clickEventSearchIcon();*/
         eventsPage.clickActionsDropdown();
         SetReservesUnderEventsPage setReservesUnderEventsPage = eventsPage.clickReservesOptionUnderActions();
         String totalRollupValue = setReservesUnderEventsPage.getRollUpLossCostValue();

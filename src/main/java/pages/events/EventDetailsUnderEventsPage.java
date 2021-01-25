@@ -16,6 +16,10 @@ public class EventDetailsUnderEventsPage extends BasePage {
     private final By updateButton = By.id("ClaimLossDetails:ClaimLossDetailsScreen:Update-btnInnerEl");
     private final By eventClassificationErrorMessage = By.id("WebMessageWorksheet:WebMessageWorksheetScreen:grpMsgs");
     private final By cancelButton = By.id("ClaimLossDetails:ClaimLossDetailsScreen:Cancel-btnInnerEl");
+    private final By closeEventDropdown = By.id("ClaimLossDetails:ClaimLossDetailsScreen:LossDetailsPanelSet:LossDetailsCardCV:LossDetailsDV:LMPropertyLossDetailsDV:LMEventStatusCommonInputSet:Event_ClosingFlag-inputEl");
+    private final By outcomeDropdown = By.id("ClaimLossDetails:ClaimLossDetailsScreen:LossDetailsPanelSet:LossDetailsCardCV:LossDetailsDV:LMPropertyLossDetailsDV:LMEventStatusCommonInputSet:LMClaimCloseInputSet:Closing_ClosingReason-inputEl");
+    private final By specificReasonDropdown = By.id("ClaimLossDetails:ClaimLossDetailsScreen:LossDetailsPanelSet:LossDetailsCardCV:LossDetailsDV:LMPropertyLossDetailsDV:LMEventStatusCommonInputSet:LMClaimCloseInputSet:Closing_ClosingSubReason-inputEl");
+    private final By clearButton = By.id("WebMessageWorksheet:WebMessageWorksheetScreen:WebMessageWorksheet_ClearButton-btnInnerEl");
 
     public EventDetailsUnderEventsPage(WebDriver driver){
         this.driver = driver;
@@ -23,23 +27,25 @@ public class EventDetailsUnderEventsPage extends BasePage {
         this.action = new Actions(driver);
         this.executor = (JavascriptExecutor)driver;
         this.fluentWait = new FluentWait<WebDriver>(driver)
-                .withTimeout(Duration.ofSeconds(20)).pollingEvery(Duration.ofMillis(400)).ignoring(NoSuchElementException.class);
+                .withTimeout(Duration.ofSeconds(25)).pollingEvery(Duration.ofMillis(200)).ignoring(NoSuchElementException.class);
     }
 
-    public void clickEventDetailsEditButton() throws InterruptedException {
-        driver.findElement(editButton).click();
-        Thread.sleep(500);
+    public void clickEventDetailsEditButton(){
+        WebElement editButtonEle = fluentWait.until(ExpectedConditions.elementToBeClickable(editButton));
+        editButtonEle.click();
     }
 
     public void selectHomeOfficeFromEventClassificationDropdown() {
         boolean timeoutElement = true;
         while(timeoutElement){
             try{
-                wait.until(ExpectedConditions.presenceOfElementLocated(eventClassificationDropdown));
-                WebElement ele = driver.findElement(eventClassificationDropdown);
-                action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ENTER ).perform();
+                WebElement ele =  fluentWait.until(ExpectedConditions.elementToBeClickable(eventClassificationDropdown));
+                ele.click();
+                action.sendKeys(Keys.ARROW_DOWN, Keys.ENTER).build().perform();
+                //WebElement ele = driver.findElement(eventClassificationDropdown);
+                //action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ENTER ).perform();
                 timeoutElement = false;
-            } catch(TimeoutException e){
+            } catch(StaleElementReferenceException | NoSuchElementException e){
                 timeoutElement = true;
             }
         }
@@ -49,10 +55,10 @@ public class EventDetailsUnderEventsPage extends BasePage {
         boolean staleElement = true;
         while(staleElement){
             try{
-                wait.until(ExpectedConditions.presenceOfElementLocated(updateButton));
-                driver.findElement(updateButton).click();
+                WebElement updateButtonEle = fluentWait.until(ExpectedConditions.elementToBeClickable(updateButton));
+                updateButtonEle.click();
                 staleElement = false;
-            } catch(StaleElementReferenceException | TimeoutException e){
+            } catch(StaleElementReferenceException | NoSuchElementException e){
                 staleElement = true;
             }
         }
@@ -63,10 +69,10 @@ public class EventDetailsUnderEventsPage extends BasePage {
         String validationResultsErrorText = null;
         while(staleElement){
             try{
-                wait.until(ExpectedConditions.presenceOfElementLocated(eventClassificationErrorMessage));
-                validationResultsErrorText = driver.findElement(eventClassificationErrorMessage).getText();
+                WebElement errorMessageEle = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(eventClassificationErrorMessage));
+                validationResultsErrorText = errorMessageEle.getText();
                 staleElement = false;
-            } catch(StaleElementReferenceException | TimeoutException e){
+            } catch(StaleElementReferenceException | NoSuchElementException e){
                 staleElement = true;
             }
         }
@@ -74,7 +80,27 @@ public class EventDetailsUnderEventsPage extends BasePage {
     }
 
     public void clickCancel() {
-        wait.until(ExpectedConditions.presenceOfElementLocated(cancelButton));
-        driver.findElement(cancelButton).click();
+        WebElement cancelButtonEle = fluentWait.until(ExpectedConditions.elementToBeClickable(cancelButton));
+        cancelButtonEle.click();
+    }
+
+    public void selectYesFromCloseEventDropdown() {
+        WebElement ele = fluentWait.until(ExpectedConditions.elementToBeClickable(closeEventDropdown));
+        action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ENTER ).perform();
+    }
+
+    public void selectOptionFromOutcomeDropdown() {
+        WebElement ele = fluentWait.until(ExpectedConditions.elementToBeClickable(outcomeDropdown));
+        action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ENTER ).perform();
+    }
+
+    public void selectDuplicateFromSpecificReasonDropdown() {
+        WebElement ele = fluentWait.until(ExpectedConditions.elementToBeClickable(specificReasonDropdown));
+        action.click(ele).sendKeys(Keys.ARROW_DOWN, Keys.ENTER ).perform();
+    }
+
+    public void clickClearButton() {
+        WebElement clearButtonEle = fluentWait.until(ExpectedConditions.elementToBeClickable(clearButton));
+        clearButtonEle.click();
     }
 }

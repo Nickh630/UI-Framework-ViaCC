@@ -22,10 +22,6 @@ public class ExposureStatusTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("921099301");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("831047101");
-        eventsPage.clickEventSearchIcon();*/
         ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
         exposuresUnderEventsPage.clickCollisionExposureNoOne();
             if(exposuresUnderEventsPage.presenceOfEditExposureButton()>0){
@@ -34,7 +30,6 @@ public class ExposureStatusTests extends BaseTest {
                 exposuresUnderEventsPage.selectYesForClosureValue();
                 exposuresUnderEventsPage.selectErrorFromOutcomeDropdown();
                 exposuresUnderEventsPage.selectDuplicateFromSpecificReasonDropdown();
-                //exposuresUnderEventsPage.selectYesFromDirectDealDropdown();
                 exposuresUnderEventsPage.clickUpdate();
                 exposuresUnderEventsPage.clickClearButton();
                 exposuresUnderEventsPage.clickUpdate();
@@ -55,10 +50,6 @@ public class ExposureStatusTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("921099301");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-       /* EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("831047101");
-        eventsPage.clickEventSearchIcon();*/
         ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
         exposuresUnderEventsPage.clickCollisionExposureNoOne();
         if(exposuresUnderEventsPage.presenceOfEditExposureButton()==0){
@@ -70,7 +61,6 @@ public class ExposureStatusTests extends BaseTest {
         exposuresUnderEventsPage.selectYesForClosureValue();
         exposuresUnderEventsPage.selectErrorFromOutcomeDropdown();
         exposuresUnderEventsPage.selectDuplicateFromSpecificReasonDropdown();
-        //exposuresUnderEventsPage.selectYesFromDirectDealDropdown();
         exposuresUnderEventsPage.clickUpdate();
         exposuresUnderEventsPage.clickClearButton();
         exposuresUnderEventsPage.clickUpdate();
@@ -88,10 +78,6 @@ public class ExposureStatusTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("731066201");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("731066201");
-        eventsPage.clickEventSearchIcon();*/
         ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
         exposuresUnderEventsPage.clickCollisionExposureNoOne();
         if(exposuresUnderEventsPage.presenceOfEditExposureButton()>0){
@@ -118,10 +104,6 @@ public class ExposureStatusTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("731066201");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("731066201");
-        eventsPage.clickEventSearchIcon();*/
         ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposuresOption();
         exposuresUnderEventsPage.clickCollisionExposureNoOne();
         if(exposuresUnderEventsPage.presenceOfEditExposureButton()==0){

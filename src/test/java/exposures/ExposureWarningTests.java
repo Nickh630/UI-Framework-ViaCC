@@ -22,10 +22,6 @@ public class ExposureWarningTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("991079001");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("991079001");
-        eventsPage.clickEventSearchIcon();*/
         ExposuresUnderEventsPage exposuresUnderEventsPage = eventsPage.clickExposureOptionOne();
         exposuresUnderEventsPage.clickEditButton();
         exposuresUnderEventsPage.selectHomeOfficeFromExposureClassificationDropdown();
@@ -44,10 +40,6 @@ public class ExposureWarningTests extends BaseTest {
         homePage.clickEventsDropdown();
         homePage.setEventNumberSearch("861096501");
         EventsPage eventsPage = homePage.clickEventSearchIcon();
-        /*EventsPage eventsPage = homePage.clickEventsPage();
-        eventsPage.clickEventsDropdown();
-        eventsPage.setEventNumberSearch("861096501");
-        eventsPage.clickEventSearchIcon();*/
         EventDetailsUnderEventsPage eventDetailsUnderEventsPage = eventsPage.clickEventDetailsOption();
         eventDetailsUnderEventsPage.clickEventDetailsEditButton();
         eventDetailsUnderEventsPage.selectHomeOfficeFromEventClassificationDropdown();
